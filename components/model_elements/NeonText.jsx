@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
-import { Text3D } from '@react-three/drei'
+import { Text3D, Text3DProps } from '@react-three/drei'
+
 
 export function NeonText({ text, neonColor, on, ...props }) {
   const materialRef = useRef()

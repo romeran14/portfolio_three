@@ -20,19 +20,148 @@ body {
   height: 100%;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
 
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+    @import url('https://unpkg.com/normalize.css') layer(normalize);
+/* @import 'normalize.css' layer(normalize); */
+
+@layer normalize, base, demo, debug;
+
+
+
+.text_animated_container{
+   
+    width: 45%;
+    border: red 1px solid;
+    min-height: 200px;
+
+@layer debug {
+  [data-debug='true'] .text_animated p:not(:nth-of-type(2)) {
+    opacity: 0.1;
+  }
+
+}
+
+@layer demo {
+  :root {
+    --duration: 0.25;
+  }
+
+  .wrapper_stage_1{
+  background:"blue";
+  padding:"10px"; 
+   width:"100vw";
+  }
+ 
+  .text_animated {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .text_animated p {
+    --font-level: 1.2;
+    font-weight: 300;
+    line-height: 1em;;
+    color: inherit;
+    font-family: 'Reddit Mono', monospace;
+    text-decoration: none;
+    transition: opacity 0.2s;
+    opacity: 0.6;
+    
+    &:is(:hover, :focus-visible) {
+      opacity: 1;
+    }
+    
+    span{
+      max-height: 1.1rem;
+      overflow-y: hidden;
+
+      font-size: 1rem;
+    }
+ 
+  }
+
+}
+
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+}
+
+.draw_stack_icons{
+  .stack_icon{
+    background: greenyellow;
+    width: 30% ;
+    aspect-ratio: 1;
+  }
+  .a{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;}
 }

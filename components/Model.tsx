@@ -1,4 +1,4 @@
-import { PerspectiveCamera,  Stars,  useScroll } from "@react-three/drei"
+import { Html, PerspectiveCamera,  Stars,  Text,  useScroll } from "@react-three/drei"
 import { useFrame, useThree } from "@react-three/fiber"
 import gsap from "gsap"
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
@@ -18,6 +18,8 @@ import { Chair } from "./model_elements/Chair"
 import { PlanetNeon } from "./model_elements/PlanetNeon"
 import {Galaxy} from "./model_elements/Galaxy"
 import {DancingAlien} from "./model_elements/DancingAlien"
+import TextAnimated from "./html_elements/TextAnimated"
+import DrawStackIcons from "./html_elements/DrawStackIcons"
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
@@ -42,190 +44,190 @@ export default function Model() {
 
 		const { size } = useThree()
 
-		const [on, setOn] = useState(true)
-		// Cambia el color y la emisividad según el estado "on"
-		const neonColor = '#189b00'
+// 		const [on, setOn] = useState(true)
+// 		// Cambia el color y la emisividad según el estado "on"
+// 		const neonColor = '#189b00'
 
-		const onHandler = () => {
-			if (on) {
-				return
-			}
-			// Cambia el estado "on" al hacer clic
-			setOn(true)
+// 		const onHandler = () => {
+// 			if (on) {
+// 				return
+// 			}
+// 			// Cambia el estado "on" al hacer clic
+// 			setOn(true)
 
-		}
+// 		}
 
-		const ref = useRef();
-		const tl = useRef<Timeline>();
+// 		const ref = useRef();
+// 		const tl = useRef<Timeline>();
 
-		const ambientLightRef = useRef()
-		const firstStageRef = useRef<Group>(null);
-		const secondStageRef = useRef()
-		const thirdStageRef = useRef()
-		const fourtStageRef = useRef()
-		const camRef = useRef<THREE.PerspectiveCamera | null>();
-		const spaceShip = useRef()
-		const alien = useRef()
-		const planet1 = useRef()
-		const planet2 = useRef()
-		const planet3 = useRef()
-		const planet4 = useRef()
+// 		const ambientLightRef = useRef()
+// 		const firstStageRef = useRef<Group>(null);
+ 		const secondStageRef = useRef()
+// 		const thirdStageRef = useRef()
+// 		const fourtStageRef = useRef()
+ 		const camRef = useRef<THREE.PerspectiveCamera | null>();
+	const spaceShip = useRef()
+// 		const alien = useRef()
+// 		const planet1 = useRef()
+// 		const planet2 = useRef()
+// 		const planet3 = useRef()
+// 		const planet4 = useRef()
 
-		const scroll = useScroll();
-		useEffect(() => {
-			if (!ref.current && !camRef.current) return;
-			/**Look trought Y axes */
+// 		const scroll = useScroll();
+// 		useEffect(() => {
+// 			if (!ref.current && !camRef.current) return;
+// 			/**Look trought Y axes */
 
-			//camRef.current.position.set(10, 10, 10);
-		camRef.current.lookAt(vector);
-		}, []);
+// 			//camRef.current.position.set(10, 10, 10);
+// 		camRef.current.lookAt(vector);
+// 		}, []);
 
-		useFrame(() => {
-			tl.current.seek(scroll.offset * tl.current.duration());
-
-
-		});
-
-		useLayoutEffect(() => {
-			if (!ref.current && !camRef.current && !ambientLightRef.current) return;
-
-			tl.current = gsap.timeline();
-			//tl.current
-
-			const scrollPercentage = scroll.offset * 100;
-
-			//console.log( scrollPercentage)
-			//VERTICAL ANIMATION
-			tl.current.to(
-				ref.current.position,
-				{
-					duration: 2,
-					z: FLOOR_HEIGHT * (NB_FLOORS - 1),
-					ease: 'power2.inOut',
-				// z: 0,
-				},
-				0.5 //insert exactly 0 seconds from the start of the timeline
-			);
-
-				tl.current.to(
-				ref.current.rotation,
-				{
-					duration: 2,
-					// y: -FLOOR_HEIGHT * (NB_FLOORS - 1),
-						ease: 'power2.inOut',
-						x: -Math.PI / 2,
-				},
-				0 //insert exactly 0 seconds from the start of the timeline
-			);
-				// Animación de la cámara (ejemplo: mueve la cámara en Y y Z)
-	tl.current.to(
-		camRef.current?.position, // Lerp para suavizar el movimiento
-		{
-			duration: 1,
-			z: lerp(-30, 0,scalePercent(0,100, scrollPercentage))*2, //lerp( 9,-FLOOR_HEIGHT/2 * (NB_FLOORS),scalePercent(0,100, scrollPercentage))*10 , // sigue el grupo pero con offset
-			ease: 'power2.inOut',
-		},
-		0
-);
+// 		useFrame(() => {
+// 			tl.current.seek(scroll.offset * tl.current.duration());
 
 
-	// Rotation
-	// tl.current.to(
-	// ref.current.rotation,
-	// { duration: 1, x: 0, y: Math.PI / 6, z: 0 },
-	// 0
-	// );
+// 		});
 
-	// tl.current.to(
-	// firstStageRef?.current,
-	// {
+// 		useLayoutEffect(() => {
+// 			if (!ref.current && !camRef.current && !ambientLightRef.current) return;
 
-	// //
-	// visible: false, // Cambia la opacidad a 0.5
-	// ease: 'power2.inOut',
-	// },
-	// 3
-	// );
+// 			tl.current = gsap.timeline();
+// 			//tl.current
 
-	/**SpacheShip movement */
-		tl.current.to(
-		spaceShip?.current.position,
-		{
-			duration: 3,
-			x: 250,
-				ease: 'power2.inOut',
-		},
-		0.15
-	);
-	// tl.current.to(
-	// ref.current.position,
-	// {
-	// duration: 1,
-	// x: 10,
-	// z: 20,
-	// },
-	// 1
-	// );
+// 			const scrollPercentage = scroll.offset * 100;
 
+// 			//console.log( scrollPercentage)
+// 			//VERTICAL ANIMATION
+// 			tl.current.to(
+// 				ref.current.position,
+// 				{
+// 					duration: 2,
+// 					z: FLOOR_HEIGHT * (NB_FLOORS - 1),
+// 					ease: 'power2.inOut',
+// 				// z: 0,
+// 				},
+// 				0.5 //insert exactly 0 seconds from the start of the timeline
+// 			);
 
-	// tl.current.from(
-	// secondStageRef.current.position,
-	// {
-	// duration: 0.5,
-	// x: -2,
-	// },
-	// 0.5
-	// );
-	// tl.current.from(
-	// secondStageRef.current.rotation,
-	// {
-	// duration: 0.5,
-	// y: -Math.PI / 2,
-	// },
-	// 0
-	// );
+// 				tl.current.to(
+// 				ref.current.rotation,
+// 				{
+// 					duration: 2,
+// 					// y: -FLOOR_HEIGHT * (NB_FLOORS - 1),
+// 						ease: 'power2.inOut',
+// 						x: -Math.PI / 2,
+// 				},
+// 				0 //insert exactly 0 seconds from the start of the timeline
+// 			);
+// 				// Animación de la cámara (ejemplo: mueve la cámara en Y y Z)
+// 	tl.current.to(
+// 		camRef.current?.position, // Lerp para suavizar el movimiento
+// 		{
+// 			duration: 1,
+// 			z: lerp(-30, 0,scalePercent(0,100, scrollPercentage))*2, //lerp( 9,-FLOOR_HEIGHT/2 * (NB_FLOORS),scalePercent(0,100, scrollPercentage))*10 , // sigue el grupo pero con offset
+// 			ease: 'power2.inOut',
+// 		},
+// 		0
+// );
 
 
-	// tl.current.from(
-	// thirdStageRef.current.position,
-	// {
-	// duration: 1.5,
-	// y: 2,
-	// },
-	// 0
-	// );
+// 	// Rotation
+// 	// tl.current.to(
+// 	// ref.current.rotation,
+// 	// { duration: 1, x: 0, y: Math.PI / 6, z: 0 },
+// 	// 0
+// 	// );
 
-	// tl.current.from(
-	// thirdStageRef.current.rotation,
-	// {
-	// duration: 0.5,
-	// y: Math.PI / 2,
-	// },
-	// 1
-	// );
+// 	// tl.current.to(
+// 	// firstStageRef?.current,
+// 	// {
 
-	// tl.current.from(
-	// thirdStageRef.current.position,
-	// {
-	// duration: 0.5,
+// 	// //
+// 	// visible: false, // Cambia la opacidad a 0.5
+// 	// ease: 'power2.inOut',
+// 	// },
+// 	// 3
+// 	// );
 
-	// z: -2,
-	// },
-	// 1.5
-	// );
+// 	/**SpacheShip movement */
+// 		tl.current.to(
+// 		spaceShip?.current.position,
+// 		{
+// 			duration: 3,
+// 			x: 250,
+// 				ease: 'power2.inOut',
+// 		},
+// 		0.15
+// 	);
+// 	// tl.current.to(
+// 	// ref.current.position,
+// 	// {
+// 	// duration: 1,
+// 	// x: 10,
+// 	// z: 20,
+// 	// },
+// 	// 1
+// 	// );
 
-	}, []);
+
+// 	// tl.current.from(
+// 	// secondStageRef.current.position,
+// 	// {
+// 	// duration: 0.5,
+// 	// x: -2,
+// 	// },
+// 	// 0.5
+// 	// );
+// 	// tl.current.from(
+// 	// secondStageRef.current.rotation,
+// 	// {
+// 	// duration: 0.5,
+// 	// y: -Math.PI / 2,
+// 	// },
+// 	// 0
+// 	// );
+
+
+// 	// tl.current.from(
+// 	// thirdStageRef.current.position,
+// 	// {
+// 	// duration: 1.5,
+// 	// y: 2,
+// 	// },
+// 	// 0
+// 	// );
+
+// 	// tl.current.from(
+// 	// thirdStageRef.current.rotation,
+// 	// {
+// 	// duration: 0.5,
+// 	// y: Math.PI / 2,
+// 	// },
+// 	// 1
+// 	// );
+
+// 	// tl.current.from(
+// 	// thirdStageRef.current.position,
+// 	// {
+// 	// duration: 0.5,
+
+// 	// z: -2,
+// 	// },
+// 	// 1.5
+// 	// );
+
+// 	}, []);
 
 
 
 	return (
 		<group /*ref={group}*/>
 
-			{/* <axesHelper
+			<axesHelper
 			scale={20}
 			position={[0, 4, 0]}
 			rotation={[0, 0, 0]} 
-			/> */}
+			/>
 			<Stars
 			radius={100}
 			depth={100}
@@ -241,20 +243,20 @@ export default function Model() {
 	makeDefault
 	/**Look forward Y axe */
 	aspect={size.width/size.height}
-		position={[0, 15, -30]}
+	position={[0, 15, -30]}
 	rotation={[0,Math.PI,0]}
-		near={1}
-		zoom={1}
-		ref={camRef}
+  near={1}
+  zoom={1}
+  ref={camRef}
 />
 	{/* </Float> */}
 
 	<color attach="background" args={['#000000']} />
 
 
-		<group onClick={onHandler} ref={ref} >
+		<group /*onClick={onHandler} ref={ref} */ >
 		{/**First stage */}
-		<group ref={firstStageRef} scale={size.width >= 768 ? 1 : 0.6} >
+		{/* <group ref={firstStageRef} scale={size.width >= 768 ? 1 : 0.6} >
 
 			<spotLight
 	intensity={15}
@@ -313,10 +315,10 @@ export default function Model() {
 			<RockSign />
 			<PlanetNeon />
 		</group>
-		</group>
+		</group> */}
 
 		{/**Second stage */}
-		<group position={[0, FLOOR_HEIGHT , -15]}>
+		<group position={[0, 0 /*FLOOR_HEIGHT*/ ,10 /*-15*/]}>
 			<group ref={secondStageRef} >
 				{/**RotatingCube */}
 				<ambientLight
@@ -327,9 +329,14 @@ export default function Model() {
 					text="ABOUT ME"
 					neonColor={"darkred"}
 					on={true}
-					position={[5, 0, 0]}
-					rotation={[Math.PI * 0.5, 0, Math.PI * 1.5]}
+					position={[3.2, 5, 0]}
+					//rotation={[Math.PI * 0.5, 0, Math.PI * 1.5]}
 				/>
+        <Html  center as="section" wrapperClass="wrapper_stage_1" style={{/*background:"blue",*/ padding:"10px",   width:"100vw", display:'flex', justifyContent:'center'}}>
+          <TextAnimated/>
+          <DrawStackIcons/>
+        </Html>
+      
 				{/* <mesh scale={10} position={[0, 0, 0]} rotation={[0, 0.5, 0]}>
 					<boxGeometry />
 					<meshPhysicalMaterial
@@ -345,31 +352,31 @@ export default function Model() {
 			<group position={[-250,0,-60]} ref={spaceShip}>
 				<pointLight intensity={45} position={[10, 15, -10]} color='green' />
 				<EffectComposer>
-			<Bloom />
-		</EffectComposer>
-		<Galaxy />
+          <Bloom />
+        </EffectComposer>
+        <Galaxy />
 			</group>
 
 		</group>
 		{/**Third stage */}
-		<group position={[0, FLOOR_HEIGHT*2 , 0]}>
+		{/* <group position={[0, FLOOR_HEIGHT*2 , 0]}>
 			<group position={[-15,15,-30]} rotation={[-(Math.PI)/4,Math.PI/8,(Math.PI)]} ref={alien}>
 			<DancingAlien />
 			</group>
 
 			<group ref={thirdStageRef} >
-				{/**RotatingCube */}
+
 				<ambientLight
 					intensity={0.1}
 					color='white'
 				/>
 
 			</group>
-		</group>
+		</group> */}
 		{/**Fourth stage */}
-		<group position={[0, FLOOR_HEIGHT*3 , 0]}>
+		{/* <group position={[0, FLOOR_HEIGHT*3 , 0]}>
 			<group ref={fourtStageRef} >
-				{/**RotatingCube */}
+			
 				<mesh scale={4} position={[5,-5,-10]} rotation={[0, 0.5, 0]}>
 					<sphereGeometry />
 					<meshPhysicalMaterial
@@ -383,11 +390,12 @@ export default function Model() {
                 sheen={0.4} // Un sutil efecto de "brillo sedoso" para atmósferas finas
               sheenColor={'#ffffff'} // Color del brillo
                 emissive={'purple'} // Brillo del planeta (si lo quieres sin luces)
-              emissiveIntensity={1} // Intensidad del brillo del planeta
-				/>
+              emissiveIntensity={1.5} // Intensidad del brillo del planeta
+				   
+        />
 				</mesh>
 				</group>
-			</group>
+			</group> */}
 
 		</group>
 

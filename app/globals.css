@@ -38,7 +38,7 @@ body {
 .text_animated_container{
    
     width: 45%;
-    border: red 1px solid;
+  
     min-height: 200px;
 
 @layer debug {
@@ -53,11 +53,7 @@ body {
     --duration: 0.25;
   }
 
-  .wrapper_stage_1{
-  background:"blue";
-  padding:"10px"; 
-   width:"100vw";
-  }
+
  
   .text_animated {
     display: inline-flex;
@@ -73,14 +69,10 @@ body {
     font-family: 'Reddit Mono', monospace;
     text-decoration: none;
     transition: opacity 0.2s;
-    opacity: 0.6;
-    
-    &:is(:hover, :focus-visible) {
-      opacity: 1;
-    }
+
     
     span{
-      max-height: 1.1rem;
+      max-height: 1rem;
       overflow-y: hidden;
 
       font-size: 1rem;
@@ -155,13 +147,38 @@ body {
   }
 }
 
+@media only screen and (max-width: 767px) {
+  width: 100%;
+  padding-inline: 20px;
+}
+
 }
 
 .draw_stack_icons{
+   width:35%;
   .stack_icon{
-    background: greenyellow;
-    width: 30% ;
-    aspect-ratio: 1;
+
+    display: flex;
+    gap: 1%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    @media only screen and (max-width: 767px) {
+      margin-top: 20px;
+    }
+  }
+  svg{
+    width: 20%;
+    margin-bottom: 5%;
+    @media only screen and (max-width: 767px) {
+      width: 30%;
+      padding-inline: 20px;
+    }
   }
   .a{fill:none;stroke:#fff;stroke-linecap:round;stroke-linejoin:round;}
+
+  @media only screen and (max-width: 767px) {
+  width: 100%;
 }
+}
+

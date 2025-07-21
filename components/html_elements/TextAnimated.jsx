@@ -2,23 +2,19 @@
 import {Pane} from 'tweakpane';
 import gsap from 'gsap'
 import ScrambleTextPlugin from 'gsap/ScrambleTextPlugin';
+import { useRef, useEffect } from 'react';
 
 gsap.registerPlugin(ScrambleTextPlugin)
 
 const config = {
-	theme: 'dark',
 	random: true,
 }
 
 // Utilities for building random strings
-// const defaultChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:,.<>?~'
 const defaultChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
 
 
-
-
 const scramble = (event) => {
-	console.log("SCRAMBLE")
 	const target = event.target.firstElementChild
 	if (!target || !target.innerText ) {
 		return;
@@ -39,14 +35,50 @@ const scramble = (event) => {
 
 
 
+
+
 const TextAnimated = () => {
+
+  const ref = useRef(null)
+
+const scrambleAll = (e) => {
+   console.log("AQUII")
+  const allParragraph = e.target.getElementsByClassName("fluid")
+  console.log(allParragraph)
+}
+
+useEffect(() => {
+  const allParragraph = ref.current.getElementsByClassName("fluid")
+  if (!ref.current && !(allParragraph.length > 0)) return;
+  
+
+  console.log("HOLIS",allParragraph)
+
+  for (let i = 0; i < allParragraph.length; i++) {
+        const target = allParragraph[i]
+      		if (!gsap.isTweening(target) && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+
+			gsap.to(target, {
+				duration: .8,
+				ease: 'sine.in',
+				scrambleText: {
+					text: target.innerText,
+					speed: 2,
+					chars: config.random ? defaultChars : target.innerText.replace(/\s/g, '')
+				}
+			});
+	}
+}
+
+
+  
+}, [])
+
 	return (
-		<div className="text_animated_container">
+		<div  ref={ref}  className="text_animated_container">
 
 			<section className="text_animated">
         <p
-          onScroll={scramble}
-          onPointerOver={scramble}
           onPointerEnter={scramble}
           onFocus={scramble}
           className="fluid"

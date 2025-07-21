@@ -44,6 +44,8 @@ export default function Model() {
 
 		const { size } = useThree()
 
+		const isMobile = size.width >= 768
+
 // 		const [on, setOn] = useState(true)
 // 		// Cambia el color y la emisividad según el estado "on"
 // 		const neonColor = '#189b00'
@@ -223,11 +225,11 @@ export default function Model() {
 	return (
 		<group /*ref={group}*/>
 
-			<axesHelper
+			{/* <axesHelper
 			scale={20}
 			position={[0, 4, 0]}
 			rotation={[0, 0, 0]} 
-			/>
+			/> */}
 			<Stars
 			radius={100}
 			depth={100}
@@ -256,7 +258,7 @@ export default function Model() {
 
 		<group /*onClick={onHandler} ref={ref} */ >
 		{/**First stage */}
-		{/* <group ref={firstStageRef} scale={size.width >= 768 ? 1 : 0.6} >
+		{/* <group ref={firstStageRef} scale={isMobile ? 1 : 0.6} >
 
 			<spotLight
 	intensity={15}
@@ -332,9 +334,9 @@ export default function Model() {
 					position={[3.2, 5, 0]}
 					//rotation={[Math.PI * 0.5, 0, Math.PI * 1.5]}
 				/>
-        <Html  center as="section" wrapperClass="wrapper_stage_1" style={{/*background:"blue",*/ padding:"10px",   width:"100vw", display:'flex', justifyContent:'center'}}>
+        <Html  center as="section"  wrapperClass="wrapper_stage_1" style={{/*background:"blue",*/ padding:"10px", paddingTop: isMobile ? "200px": "350px",   width:"100vw", display:'flex', justifyContent:'center', flexDirection:isMobile ? "row" : "column"}}>
           <TextAnimated/>
-          <DrawStackIcons/>
+          <DrawStackIcons isMobile={isMobile}/>
         </Html>
       
 				{/* <mesh scale={10} position={[0, 0, 0]} rotation={[0, 0.5, 0]}>

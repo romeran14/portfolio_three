@@ -3,6 +3,9 @@ import {Pane} from 'tweakpane';
 import gsap from 'gsap'
 import ScrambleTextPlugin from 'gsap/ScrambleTextPlugin';
 import { useRef, useEffect } from 'react';
+import Image from 'next/image';
+
+
 
 gsap.registerPlugin(ScrambleTextPlugin)
 
@@ -37,7 +40,7 @@ const scramble = (event) => {
 
 
 
-const TextAnimated = () => {
+const TextAnimated = ({isMobile}) => {
 
   const ref = useRef(null)
 
@@ -55,7 +58,7 @@ useEffect(() => {
   console.log("HOLIS",allParragraph)
 
   for (let i = 0; i < allParragraph.length; i++) {
-        const target = allParragraph[i]
+        const target = allParragraph[i].firstElementChild
       		if (!gsap.isTweening(target) && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
 
 			gsap.to(target, {
@@ -65,7 +68,8 @@ useEffect(() => {
 					text: target.innerText,
 					speed: 2,
 					chars: config.random ? defaultChars : target.innerText.replace(/\s/g, '')
-				}
+				},
+        
 			});
 	}
 }
@@ -78,6 +82,8 @@ useEffect(() => {
 		<div  ref={ref}  className="text_animated_container">
 
 			<section className="text_animated">
+        {isMobile? 
+          <>
         <p
           onPointerEnter={scramble}
           onFocus={scramble}
@@ -122,15 +128,105 @@ useEffect(() => {
         >
           <span aria-hidden="true">Fun fact: I have a mechanical engineer degree.</span>
         </p>
-                <br></br>
+        <br></br>
+        <div style={{display:'flex'}}>
+          <Image alt='location Icon' width={15} height={15} className='location_icon' src='/svg/location-pin-svgrepo-com.svg' ></Image>
+          <p
+            className="fluid"
+            onPointerEnter={scramble}
+            onFocus={scramble}
+          >
+            <span aria-hidden="true">
+            Zulia, Venezuela
+            </span>
+
+          </p>  
+        </div>
+
+          </> 
+        : 
+          <>
         <p
-          onPointerEnter={scramble}
-          onFocus={scramble}
           className="fluid"
         >
-          <span aria-hidden="true">located in Zulia Venezuela</span>
+          <span aria-hidden="true">
+            Hi, I'm Romeran Rodriguez
+          </span>
         </p>
-		</section>
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+            FullStack Developer.
+          </span>
+        </p> 
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+            Over the past five years,
+          </span>
+        </p>   
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+             I've worked developing web 
+          </span>
+        </p>
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+             applications, REST APIs, and
+          </span>
+        </p>                                     
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+             Android apps.  I'm excited
+          </span>
+        </p>  	
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+             to use new technologies and
+          </span>
+        </p>  	
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+            improve the performance of the
+          </span>
+        </p>
+        <p
+          className="fluid"
+        >
+          <span aria-hidden="true">
+            software I've built.
+          </span>
+        </p>   
+        <br></br>
+        <div style={{display:'flex'}}>
+          <Image alt='location Icon' width={15} height={15} className='location_icon' src='/svg/location-pin-svgrepo-com.svg' ></Image>
+          <p
+            className="fluid"
+            onPointerEnter={scramble}
+            onFocus={scramble}
+          >
+            <span aria-hidden="true">
+            Zulia, Venezuela
+            </span>
+          </p>  
+        </div>   
+          </>
+        }
+
+     
+    </section>
 
 		</div>
 	)

@@ -335,7 +335,7 @@ export default function Model() {
 					//rotation={[Math.PI * 0.5, 0, Math.PI * 1.5]}
 				/>
         <Html  center as="section"  wrapperClass="wrapper_stage_1" style={{/*background:"blue",*/ padding:"10px", paddingTop: isMobile ? "200px": "350px",   width:"100vw", display:'flex', justifyContent:'center', flexDirection:isMobile ? "row" : "column"}}>
-          <TextAnimated/>
+          <TextAnimated isMobile={isMobile}/>
           <DrawStackIcons isMobile={isMobile}/>
         </Html>
       

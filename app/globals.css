@@ -190,3 +190,17 @@ body {
 }
 }
 
+.second_stage{
+  position: absolute;
+  top:120vh
+}
+
+.third_stage{
+  position: absolute;
+  top:180vh
+}
+
+.last_stage{
+  position: absolute;
+  top:270vh
+}

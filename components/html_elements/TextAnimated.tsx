@@ -17,7 +17,7 @@ const defaultChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345
 
 
 const scramble = (event:PointerEvent<HTMLParagraphElement> | FocusEvent<HTMLParagraphElement>) => {
-	
+	//@ts-ignore
 	const target = event.target.firstElementChild as HTMLSpanElement
 
 	if (!target || !target.innerText ) {
@@ -50,7 +50,7 @@ const TextAnimated = ({isMobile}:Props) => {
 	const scrambleAll = () => {
 
 		if (!ref.current) return;
-
+        //@ts-ignore
 		const allParragraph = ref.current.getElementsByClassName("fluid")
 	
 			if (!(allParragraph.length > 0)) return;
@@ -99,14 +99,14 @@ const TextAnimated = ({isMobile}:Props) => {
 					onFocus={scramble}
 					className="fluid"
 				>
-					<span aria-hidden="true">Hi, I'm Romeran Rodriguez FullStack Developer.</span>
+					<span aria-hidden="true">Hi, I&lsquo;m Romeran Rodriguez FullStack Developer.</span>
         </p>
         <p
           onPointerEnter={scramble}
           onFocus={scramble}
           className="fluid"
         >
-          <span aria-hidden="true">Over the past five years, I've worked developing</span>
+          <span aria-hidden="true">Over the past five years, I&lsquo;ve worked developing</span>
 				</p>
 				<hr />
 				<p
@@ -128,7 +128,7 @@ const TextAnimated = ({isMobile}:Props) => {
           onFocus={scramble}
           className="fluid"
         >
-          <span aria-hidden="true">performance of the software I've built.</span>
+          <span aria-hidden="true">performance of the software I&lsquo;ve built.</span>
 				</p>
 				<br></br>
 				<p
@@ -160,7 +160,7 @@ const TextAnimated = ({isMobile}:Props) => {
 					className="fluid"
 				>
 					<span aria-hidden="true">
-						Hi, I'm Romeran Rodriguez
+						Hi, I&lsquo;m Romeran Rodriguez
           </span>
         </p>
         <p
@@ -181,7 +181,7 @@ const TextAnimated = ({isMobile}:Props) => {
           className="fluid"
         >
           <span aria-hidden="true">
-             I've worked developing web 
+             I&lsquo;ve worked developing web 
 					</span>
 				</p>
 				<p
@@ -195,7 +195,7 @@ const TextAnimated = ({isMobile}:Props) => {
 					className="fluid"
 				>
 					<span aria-hidden="true">
-						Android apps. I'm excited
+						Android apps. I&lsquo;m excited
           </span>
         </p>  	
         <p
@@ -216,7 +216,7 @@ const TextAnimated = ({isMobile}:Props) => {
           className="fluid"
         >
           <span aria-hidden="true">
-            software I've built.
+            software I&lsquo;ve built.
 					</span>
 				</p> 
 				<br></br>

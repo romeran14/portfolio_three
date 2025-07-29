@@ -22,6 +22,7 @@ import TextAnimated from "./html_elements/TextAnimated"
 import DrawStackIcons from "./html_elements/DrawStackIcons"
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { Experience } from "./html_elements/Experience"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -51,9 +52,9 @@ export default function Model() {
 		const neonColor = '#189b00'
 
 	
-  const [opacitySecondSection, setOpacitySecondSection] = useState(0);
-   const [opacityThirdSection, setOpacityThirdSection] = useState(0);
-  const [opacityLastSection, setOpacityLastSection] = useState(0);
+		const [opacitySecondSection, setOpacitySecondSection] = useState(0);
+		const [opacityThirdSection, setOpacityThirdSection] = useState(1);
+		const [opacityLastSection, setOpacityLastSection] = useState(0);
 
 		const onHandler = () => {
 			if (on) {
@@ -67,7 +68,6 @@ export default function Model() {
 		const ref = useRef();
 		const tl = useRef<Timeline>();
 
-		const ambientLightRef = useRef()
 		const firstStageRef = useRef<Group>(null);
  		const secondStageRef = useRef()
 		const thirdStageRef = useRef()
@@ -83,17 +83,15 @@ export default function Model() {
 		const scroll = useScroll();
 		useEffect(() => {
 			if (!ref.current && !camRef.current) return;
-			/**Look trought Y axes */
 
-			//camRef.current.position.set(10, 10, 10);
-		camRef.current.lookAt(vector);
+		    camRef.current.lookAt(vector);
 		}, []);
 
 		useFrame(() => {
 			tl.current.seek(scroll.offset * tl.current.duration());
 
 			setOpacitySecondSection(scroll.curve(1/6, 1 / 3 ));
-			setOpacityThirdSection(scroll.curve(1 / 3, 1 / 3))
+			//setOpacityThirdSection(scroll.curve(1 / 3, 1 / 3))
 			setOpacityLastSection(scroll.curve(2 / 3, 1 / 3));
 		});
 
@@ -123,7 +121,7 @@ export default function Model() {
 					z: (FLOOR_HEIGHT * (NB_FLOORS - 2)) + 25, //OFFSET,
 					ease: 'power2.inOut',
 				},
-				"+=1"
+				"+=1.5"
 			);
 
 			tl.current.to(
@@ -133,7 +131,7 @@ export default function Model() {
 					z: ((FLOOR_HEIGHT * (NB_FLOORS - 1))) + 25, //OFFSET,
 					ease: 'power2.inOut',
 				},
-					"+=1" //insert exactly 0 seconds from the start of the timeline
+					"+=1.5" //insert exactly 0 seconds from the start of the timeline
 			);
 
 			//ROTATIOON
@@ -209,25 +207,25 @@ export default function Model() {
 			 <Scroll html>
 
 				<SectionCustom className={"second_stage"} isMobile={isMobile} opacity={opacitySecondSection}>
-						<TextAnimated isMobile={isMobile}/>
-						<DrawStackIcons isMobile={isMobile}/>
+					<TextAnimated isMobile={isMobile}/>
+					<DrawStackIcons isMobile={isMobile}/>
 				</SectionCustom>
 
 				<SectionCustom className={"third_stage"} isMobile={isMobile} opacity={opacityThirdSection}>
-						{/* <TextAnimated isMobile={isMobile}/> */}
-						<DrawStackIcons isMobile={isMobile}/>
+
+					<Experience/>
 				</SectionCustom>
 
 				<SectionCustom className={"last_stage"} isMobile={isMobile} opacity={opacityLastSection}>
 						{/* <TextAnimated isMobile={isMobile}/> */}
-						<DrawStackIcons isMobile={isMobile}/>
+						{/* <DrawStackIcons isMobile={isMobile}/> */}
 				</SectionCustom>
 			 </Scroll>
-			<axesHelper
+			{/* <axesHelper
 			scale={100}
 			position={[0, 0, 0]}
 			rotation={[0, 0, 0]} 
-			/>
+			/> */}
 			<Stars
 			radius={100}
 			depth={100}
@@ -318,28 +316,22 @@ export default function Model() {
 			<group ref={secondStageRef} >
 				{/**RotatingCube */}
 				<Float
-				 speed={1.2} // Animation speed, defaults to 1
-  rotationIntensity={1.1} // XYZ rotation intensity, defaults to 1
-  floatIntensity={1.01} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-  floatingRange={[1, 1.05]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
+				    speed={1.2} // Animation speed, defaults to 1
+					rotationIntensity={1.1} // XYZ rotation intensity, defaults to 1
+					floatIntensity={1.01} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+					floatingRange={[1, 1.05]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
 				>
-				<NeonText
-					text="ABOUT ME"
-					neonColor={"darkred"}
-					on={true}
-					position={[7,30,4.5]}
-
-					rotation={[Math.PI * 1.5,  Math.PI*2, Math.PI * 1]}
-					scale={2.5}
-				/>
+					<NeonText
+						text="ABOUT ME"
+						neonColor={"#9f0057"}
+						on={true}
+						position={[7,30,4.5]}
+						rotation={[Math.PI * 1.5,  Math.PI*2, Math.PI * 1]}
+						scale={2.5}
+					/>
 				</Float>
-
-				<ambientLight/>
-
-      
 			</group>
 			<group position={[-250,0,-60]} ref={spaceShip}>
-				<pointLight intensity={45} position={[10, 15, -10]} color='green' />
 				<EffectComposer>
 					<Bloom />
 				</EffectComposer>
@@ -349,13 +341,31 @@ export default function Model() {
 		</group>
 		{/**Third stage */}
 		<group position={[0, FLOOR_HEIGHT*2 , 0]}>
-			<group position={[-15,15,-30]} rotation={[-(Math.PI)/4,Math.PI/8,(Math.PI)]} ref={alien}>
-			<DancingAlien />
+			<group position={[-40,25,-10]} rotation={[-(Math.PI)/4,Math.PI/8,(Math.PI)]} ref={alien}>
+			     <directionalLight position={[-40,25,-10]}   color={"green"} intensity={0.5} />
+				<DancingAlien />
+				<pointLight  position={[-40,25,-10]}   color={"blue"} intensity={40}  />
 			</group>
 
 			<group ref={thirdStageRef} >
+				<Float
+				    speed={1.2} // Animation speed, defaults to 1
+					rotationIntensity={1.1} // XYZ rotation intensity, defaults to 1
+					floatIntensity={1.01} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
+					floatingRange={[1, 1.05]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
+				>
+				<NeonText
+					text="EXPERIENCE"
+					neonColor={"#9f0057"}
+					on={true}
+					position={[7,30,4.5]}
+					rotation={[Math.PI * 1.5,  Math.PI*2, Math.PI * 1]}
+					scale={2.5}
+				/>
 
-	
+				</Float>
+
+
 
 			</group>
 		</group>

@@ -13,7 +13,7 @@ interface Props{
 	onIntersect?: OnIntersectFunction;
 }
 
-export const useIntersectionObserver = ({options, onIntersect}:Props) => {
+export const useIntersectionObserver = ({options, onIntersect}:Props): [ MutableRefObject<null>, boolean] => {
 
 	const [isIntersecting, setIntersecting] = useState(false); // State to store if the element is intersecting
 	const elementRef = useRef(null); // Reference to the DOM element to be observed
@@ -25,11 +25,11 @@ export const useIntersectionObserver = ({options, onIntersect}:Props) => {
 
 		// If the element is intersecting and the onIntersect function is provided,
 		// and it hasn't intersected before (to run only once)
-    if (entry.isIntersecting && onIntersect && !hasIntersected.current) {
-      onIntersect(); // Call the provided animation function
-      hasIntersected.current = true; // Mark as intersected
-    }
-  }, [onIntersect]); // Dependency for useCallback: onIntersect function
+		if (entry.isIntersecting && onIntersect && !hasIntersected.current) {
+			onIntersect(); // Call the provided animation function
+			hasIntersected.current = true; // Mark as intersected
+		}
+    }, [onIntersect]); // Dependency for useCallback: onIntersect function
 
 
   useEffect(() => {

@@ -66,6 +66,7 @@ export default function Model() {
 		}
 
 		const ref = useRef();
+		//@ts-ignore
 		const tl = useRef<Timeline>();
 
 		const firstStageRef = useRef<Group>(null);
@@ -83,7 +84,7 @@ export default function Model() {
 		const scroll = useScroll();
 		useEffect(() => {
 			if (!ref.current && !camRef.current) return;
-
+            //@ts-ignore
 		    camRef.current.lookAt(vector);
 		}, []);
 
@@ -96,6 +97,7 @@ export default function Model() {
 		});
 
 		useLayoutEffect(() => {
+			//@ts-ignore
 			if (!ref.current && !camRef.current && !ambientLightRef.current) return;
 
 			tl.current = gsap.timeline();
@@ -106,6 +108,7 @@ export default function Model() {
 			//console.log( scrollPercentage)
 			//VERTICAL ANIMATION
 			tl.current.to(
+				//@ts-ignore
 				ref.current.position,
 				{
 					duration: 4,
@@ -115,6 +118,7 @@ export default function Model() {
 				0.05 //insert exactly 0 seconds from the start of the timeline
 			);
 			tl.current.to(
+				//@ts-ignore
 				ref.current.position,
 				{
 					duration: 4,
@@ -125,6 +129,7 @@ export default function Model() {
 			);
 
 			tl.current.to(
+				//@ts-ignore
 				ref.current.position,
 				{
 					duration: 4,
@@ -136,6 +141,7 @@ export default function Model() {
 
 			//ROTATIOON
 				tl.current.to(
+					//@ts-ignore
 				ref.current.rotation,
 				{
 					duration: 0.4,
@@ -159,6 +165,7 @@ export default function Model() {
 
 	/**SpacheShip movement */
 		tl.current.to(
+			//@ts-ignore
 		spaceShip?.current.position,
 		{
 			duration: 3,
@@ -198,7 +205,7 @@ export default function Model() {
 	// 1.5
 	// );
 
-	}, []);
+	}, [scroll.offset]);
 
 
 
@@ -243,12 +250,15 @@ export default function Model() {
 				rotation={[0,Math.PI,0]}
 				near={1}
 				zoom={1}
+				//@ts-ignore
 				ref={camRef}
 			/>
 
 			<color attach="background" args={['#000000']} />
-
-		<group onClick={onHandler} ref={ref} >
+{}
+		<group onClick={onHandler}
+		//@ts-ignore
+		 ref={ref} >
 		{/**First stage */}
 			<group ref={firstStageRef} scale={isMobile ? 1 : 0.6} >
 
@@ -313,7 +323,8 @@ export default function Model() {
 
 		{/**Second stage */}
 		<group position={[0, FLOOR_HEIGHT ,0]}>
-			<group ref={secondStageRef} >
+			<group //@ts-ignore
+			  ref={secondStageRef} >
 				{/**RotatingCube */}
 				<Float
 				    speed={1.2} // Animation speed, defaults to 1
@@ -331,7 +342,9 @@ export default function Model() {
 					/>
 				</Float>
 			</group>
-			<group position={[-250,0,-60]} ref={spaceShip}>
+			<group position={[-250,0,-60]}
+			//@ts-ignore
+			 ref={spaceShip}>
 				<EffectComposer>
 					<Bloom />
 				</EffectComposer>
@@ -341,13 +354,17 @@ export default function Model() {
 		</group>
 		{/**Third stage */}
 		<group position={[0, FLOOR_HEIGHT*2 , 0]}>
-			<group position={[-40,25,-10]} rotation={[-(Math.PI)/4,Math.PI/8,(Math.PI)]} ref={alien}>
+			<group position={[-40,25,-10]} rotation={[-(Math.PI)/4,Math.PI/8,(Math.PI)]}
+			//@ts-ignore
+			ref={alien}>
 			     <directionalLight position={[-40,25,-10]}   color={"green"} intensity={0.5} />
 				<DancingAlien />
 				<pointLight  position={[-40,25,-10]}   color={"blue"} intensity={40}  />
 			</group>
 
-			<group ref={thirdStageRef} >
+			<group
+			//@ts-ignore
+			 ref={thirdStageRef} >
 				<Float
 				    speed={1.2} // Animation speed, defaults to 1
 					rotationIntensity={1.1} // XYZ rotation intensity, defaults to 1
@@ -371,7 +388,9 @@ export default function Model() {
 		</group>
 		{/**Fourth stage */}
 		<group position={[0, FLOOR_HEIGHT*3 , 0]}>
-			<group ref={fourtStageRef} >
+			<group
+			//@ts-ignore
+			 ref={fourtStageRef} >
 			
 				<mesh scale={4} position={[5,-5,-10]} rotation={[0, 0.5, 0]}>
 					<sphereGeometry />
@@ -397,7 +416,7 @@ export default function Model() {
 	)
 }
 
-
+//@ts-ignore
 const SectionCustom = (props) => {
   return (
     <section className={props.className} /*as="section" center  wrapperClass="wrapper_stage_1"*/  style={{  opacity: props.opacity, padding:"10px", paddingTop: props.isMobile ? "25vh": "20vh",   width:"100vw", display:'flex', justifyContent:'center', flexDirection:props.isMobile ? "row" : "column"}}>

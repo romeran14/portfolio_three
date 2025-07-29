@@ -147,7 +147,7 @@ const Experience = () => {
     //   1.5
     // );
 
-  }, []);
+  }, [scroll.offset]);
 
   return (
     <group onClick={onHandler} ref={ref} >

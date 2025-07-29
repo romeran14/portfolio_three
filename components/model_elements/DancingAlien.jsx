@@ -10,7 +10,7 @@ export function DancingAlien(props) {
 
   useEffect(() => {
     actions["mixamo.com"]?.play()
-  }, [])
+  }, [actions])
   
   return (
     <Float

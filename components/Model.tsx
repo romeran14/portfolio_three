@@ -205,7 +205,7 @@ export default function Model() {
 	// 1.5
 	// );
 
-	}, [scroll.offset]);
+	}, []);
 
 
 

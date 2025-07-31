@@ -1,426 +1,406 @@
-import { Html, PerspectiveCamera,  Stars,  Text,  useScroll, Scroll , Float } from "@react-three/drei"
-import { useFrame, useThree } from "@react-three/fiber"
-import gsap from "gsap"
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
-import { Group } from "three"
-import * as THREE from "three"
-import { Avatar } from "./model_elements/Avatar"
-import { Table } from "./model_elements/Table"
-import { Mouse } from "./model_elements/Mouse"
-import { Keyboard } from "./model_elements/Keyboard"
-import { Monitor } from "./model_elements/Monitor"
-import { PictureFrame } from "./model_elements/PictureFrame"
-import { Aron } from "./model_elements/Aron"
-import { NeonText } from "./model_elements/NeonText"
-import { CursiNeonText } from "./model_elements/CursiNeonText"
-import { RockSign } from "./model_elements/RockSign"
-import { Chair } from "./model_elements/Chair"
-import { PlanetNeon } from "./model_elements/PlanetNeon"
-import {Galaxy} from "./model_elements/Galaxy"
-import {DancingAlien} from "./model_elements/DancingAlien"
-import TextAnimated from "./html_elements/TextAnimated"
-import DrawStackIcons from "./html_elements/DrawStackIcons"
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {  PerspectiveCamera, Stars, useScroll, Scroll, Float } from "@react-three/drei";
+import { useFrame, useThree, ThreeElements } from "@react-three/fiber";
+import gsap from "gsap";
+import { useEffect, useRef, useState, } from "react";
+import { Group } from "three";
+import * as THREE from "three";
+import { NeonText } from "./model_elements/NeonText";
+import { Galaxy } from "./model_elements/Galaxy";
+import { DancingAlien } from "./model_elements/DancingAlien";
+import TextAnimated from "./html_elements/TextAnimated";
+import DrawStackIcons from "./html_elements/DrawStackIcons";
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
-import { Experience } from "./html_elements/Experience"
+import { Experience } from "./html_elements/Experience";
+import { useGSAP } from '@gsap/react';
+import Office from "./model_elements/Office";
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(useGSAP);
 
 function lerp(x: number, y: number, a: number): number {
-	return ((1 - a) * x + a * y)
+    return ((1 - a) * x + a * y);
 }
 
-
-// Used to fit the lerps to start and end at specific scrolling percentages
 function scalePercent(start: number, end: number, scrollPercent: number): number {
-	return (scrollPercent - start) / (end - start)
+    return (scrollPercent - start) / (end - start);
 }
+
 export const FLOOR_HEIGHT = 400;
-export const NB_FLOORS = 4;
+export const NB_FLOORS = 5;
 
-	const vector = new THREE.Vector3(0, 0, 0);
+const vector = new THREE.Vector3(0, 0, 0);
 
-// ...existing code...
 export default function Model() {
 
-		const { size } = useThree()
+    const { size, gl } = useThree();
 
-		const isMobile = size.width >= 768
+    const isMobile = size.width <= 768;
 
-		const [on, setOn] = useState(true)
-		// Cambia el color y la emisividad según el estado "on"
-		const neonColor = '#189b00'
+    const [opacitySecondSection, setOpacitySecondSection] = useState(0);
+    const [opacityThirdSection, setOpacityThirdSection] = useState(0);
+    const [opacityLastSection, setOpacityLastSection] = useState(0);
 
-	
-		const [opacitySecondSection, setOpacitySecondSection] = useState(0);
-		const [opacityThirdSection, setOpacityThirdSection] = useState(1);
-		const [opacityLastSection, setOpacityLastSection] = useState(0);
 
-		const onHandler = () => {
-			if (on) {
-				return
-			}
-			// Cambia el estado "on" al hacer clic
-			setOn(true)
 
-		}
+    const ref = useRef();
+    //@ts-ignore 
+    const tl = useRef<Timeline>();
 
-		const ref = useRef();
-		//@ts-ignore
-		const tl = useRef<Timeline>();
+    const firstStageRef = useRef<Group>(null);
+    const secondStageRef = useRef();
+    const thirdStageRef = useRef();
+    const fourtStageRef = useRef();
+    const lastStageRef = useRef();
 
-		const firstStageRef = useRef<Group>(null);
- 		const secondStageRef = useRef()
-		const thirdStageRef = useRef()
-		const fourtStageRef = useRef()
- 		const camRef = useRef<THREE.PerspectiveCamera | null>();
-	    const spaceShip = useRef()
-		const alien = useRef()
-		const planet1 = useRef()
-		const planet2 = useRef()
-		const planet3 = useRef()
-		const planet4 = useRef()
+    const camRef = useRef<THREE.PerspectiveCamera | null>();
+    const spaceShip = useRef();
+    const alien = useRef();
+    const planet1 = useRef();
+    const planet2 = useRef();
+    const planet3 = useRef();
+    const planet4 = useRef();
+    const group = useRef();
+    const scroll = useScroll();
+    const ambientLightRef = useRef<ThreeElements["ambientLight"]>()
 
-		const scroll = useScroll();
-		useEffect(() => {
-			if (!ref.current && !camRef.current) return;
+    const starsRef = useRef<THREE.Group>(null);
+    const backgroundColor = useRef(new THREE.Color(0x000000));
+    const skyBlue = new THREE.Color(0x87CEEB);
+    const black = new THREE.Color(0x000000); // Define el color negro
+
+    useEffect(() => {
+        if (!ref.current && !camRef.current) return;
+        //@ts-ignore
+        camRef.current.lookAt(vector);
+    }, []);
+
+    const handleFirstCurve = () => {
+        const scrollStatus = scroll.curve(1 / 6, isMobile ? 0.4 : 1 / 3);
+        if (scrollStatus > 0 && scrollStatus < 1) {
+            setOpacitySecondSection(scrollStatus);
+        } else {
+            return;
+        }
+    };
+
+    const handleSecondCurve = () => {
+        const scrollStatus = scroll.curve(0.4, isMobile ? 0.6 : 0.3);
+        if (scrollStatus > 0 && scrollStatus < 1) {
+            setOpacityThirdSection(scrollStatus);
+        } else {
+            return;
+        }
+    };
+
+    const handleThirdCurve = () => {
+        const scrollStatus = scroll.curve(2 / 3, 1 / 3);
+        if (scrollStatus > 0 && scrollStatus > 1) { // Nota: scrollStatus > 1 aquí es raro, quizás debería ser < 1
+            setOpacityLastSection(scrollStatus);
+        } else {
+            return;
+        }
+    };
+
+    useFrame(() => {
+        tl.current.seek(scroll.offset * tl.current.duration());
+
+        handleFirstCurve();
+        handleSecondCurve();
+        handleThirdCurve();
+
+        const scrollPercent = scroll.offset;
+
+
+        const colorTransitionStart = 0.70;
+        const colorTransitionEnd = 0.95;
+
+        if (scrollPercent >= colorTransitionStart && scrollPercent <= colorTransitionEnd) {
+            const progress = (scrollPercent - colorTransitionStart) / (colorTransitionEnd - colorTransitionStart);
+            backgroundColor.current.lerpColors(black, skyBlue, progress);
+        } else if (scrollPercent < colorTransitionStart) {
+            backgroundColor.current.set(black);
+        } else {
+            backgroundColor.current.set(skyBlue);
+        }
+        gl.setClearColor(backgroundColor.current);
+    });
+
+    useGSAP(() => {
+        //@ts-ignore
+        if (!ref.current && !camRef.current && !ambientLightRef.current) return;
+        console.log(starsRef.current)
+        tl.current = gsap.timeline();
+        const scrollPercentage = scroll.offset * 100;
+
+        //VERTICAL ANIMATION
+        tl.current.to(
             //@ts-ignore
-		    camRef.current.lookAt(vector);
-		}, []);
+            ref.current.position,
+            {
+                duration: 4,
+                z: (FLOOR_HEIGHT * (NB_FLOORS - 4)) + 25,
+                ease: 'power2.inOut',
+            },
+            0.05
+        );
+        tl.current.to(
+            //@ts-ignore
+            ref.current.position,
+            {
+                duration: 4,
+                z: (FLOOR_HEIGHT * (NB_FLOORS - 3)) + 25,
+                ease: 'power2.inOut',
+            },
+            "+=1.5"
+        );
 
-		useFrame(() => {
-			tl.current.seek(scroll.offset * tl.current.duration());
+        tl.current.to(
+            //@ts-ignore
+            ref.current.position,
+            {
+                duration: 4,
+                z: ((FLOOR_HEIGHT * (NB_FLOORS - 2))) + 25,
+                ease: 'power2.inOut',
+            },
+            "+=1.5"
+        );
 
-			setOpacitySecondSection(scroll.curve(1/6, 1 / 3 ));
-			//setOpacityThirdSection(scroll.curve(1 / 3, 1 / 3))
-			setOpacityLastSection(scroll.curve(2 / 3, 1 / 3));
-		});
+	    // tl.current.to(
+        //     //@ts-ignore
+        //     starsRef.current?.,
+        //     {
+		// 		value:false,
+        //         //duration: 1,
 
-		useLayoutEffect(() => {
-			//@ts-ignore
-			if (!ref.current && !camRef.current && !ambientLightRef.current) return;
+        //         //ease: 'power2.inOut',
+        //     },
+        //     0.2
+        // );	
 
-			tl.current = gsap.timeline();
-			//tl.current
+        tl.current.to(
+            //@ts-ignore
+            ref.current.position,
+            {
+                duration: 4,
+                z: ((FLOOR_HEIGHT * (NB_FLOORS - 1))) + 25,
+                ease: 'power2.inOut',
+            },
+            "+=1.5"
+        );
 
-			const scrollPercentage = scroll.offset * 100;
+        //ROTATION
+        tl.current.to(
+            //@ts-ignore
+            ref.current.rotation,
+            {
+                duration: 0.4,
+                ease: 'power2.inOut',
+                x: -Math.PI / 2,
+            },
+            0
+        );
+        // Camera animation
+        tl.current.to(
+            camRef.current?.position,
+            {
+                duration: 1,
+                z: lerp(-30, 0, scalePercent(0, 100, scrollPercentage)) * 2,
+                ease: 'power2.inOut',
+            },
+            0
+        );
 
-			//console.log( scrollPercentage)
-			//VERTICAL ANIMATION
-			tl.current.to(
-				//@ts-ignore
-				ref.current.position,
-				{
-					duration: 4,
-					z: (FLOOR_HEIGHT * (NB_FLOORS - 3)) + 25, //OFFSET,
-					ease: 'power2.inOut',
-				},
-				0.05 //insert exactly 0 seconds from the start of the timeline
-			);
-			tl.current.to(
-				//@ts-ignore
-				ref.current.position,
-				{
-					duration: 4,
-					z: (FLOOR_HEIGHT * (NB_FLOORS - 2)) + 25, //OFFSET,
-					ease: 'power2.inOut',
-				},
-				"+=1.5"
-			);
+        /**SpaceShip movement */
+        tl.current.to(
+            //@ts-ignore
+            spaceShip?.current.position,
+            {
+                duration: 3,
+                x: 400,
+                ease: 'power2.inOut',
+                
+            },
+            0.15
+        );
 
-			tl.current.to(
-				//@ts-ignore
-				ref.current.position,
-				{
-					duration: 4,
-					z: ((FLOOR_HEIGHT * (NB_FLOORS - 1))) + 25, //OFFSET,
-					ease: 'power2.inOut',
-				},
-					"+=1.5" //insert exactly 0 seconds from the start of the timeline
-			);
+        
 
-			//ROTATIOON
-				tl.current.to(
-					//@ts-ignore
-				ref.current.rotation,
-				{
-					duration: 0.4,
-					// y: -FLOOR_HEIGHT * (NB_FLOORS - 1),
-						ease: 'power2.inOut',
-						x: -Math.PI / 2,
-				},
-				0 //insert exactly 0 seconds from the start of the timeline
-			);
-				// Animación de la cámara (ejemplo: mueve la cámara en Y y Z)
-			tl.current.to(
-				camRef.current?.position, // Lerp para suavizar el movimiento
-				{
-					duration: 1,
-					z: lerp(-30, 0,scalePercent(0,100, scrollPercentage))*2, //lerp( 9,-FLOOR_HEIGHT/2 * (NB_FLOORS),scalePercent(0,100, scrollPercentage))*10 , // sigue el grupo pero con offset
-					ease: 'power2.inOut',
-				},
-				0
-		    );
+        tl.current.to(
+           
+            ambientLightRef?.current,
+            {
+                duration: 3,
+                intensity: 1,
+                ease: 'power2.inOut',
+            },
+            3
+        );
+      
+    }, { scope: group });
 
+    return (
+        <group ref={group}>
+            <Scroll html>
+                <SectionCustom className={"second_stage"} isMobile={isMobile} opacity={opacitySecondSection}>
+                    <TextAnimated isMobile={isMobile} />
+                    <DrawStackIcons isMobile={isMobile} />
+                </SectionCustom>
 
-	/**SpacheShip movement */
-		tl.current.to(
-			//@ts-ignore
-		spaceShip?.current.position,
-		{
-			duration: 3,
-			x: 250,
-				ease: 'power2.inOut',
-		},
-		0.15
-	);
+                <SectionCustom className={"third_stage"} isMobile={isMobile} opacity={opacityThirdSection}>
+                    <Experience />
+                </SectionCustom>
 
-
-	// tl.current.from(
-	// secondStageRef.current.position,
-	// {
-	// duration: 0.5,
-	// x: -2,
-	// },
-	// 0.5
-	// );
-	// tl.current.from(
-	// secondStageRef.current.rotation,
-	// {
-	// duration: 0.5,
-	// y: -Math.PI / 2,
-	// },
-	// 0
-	// );
-
-
-
-	// tl.current.from(
-	// thirdStageRef.current.position,
-	// {
-	// duration: 0.5,
-
-	// z: -2,
-	// },
-	// 1.5
-	// );
-
-	}, [scroll.offset]);
-
-
-
-	return (
-		<group /*ref={group}*/>
-			 <Scroll html>
-
-				<SectionCustom className={"second_stage"} isMobile={isMobile} opacity={opacitySecondSection}>
-					<TextAnimated isMobile={isMobile}/>
-					<DrawStackIcons isMobile={isMobile}/>
-				</SectionCustom>
-
-				<SectionCustom className={"third_stage"} isMobile={isMobile} opacity={opacityThirdSection}>
-
-					<Experience/>
-				</SectionCustom>
-
-				<SectionCustom className={"last_stage"} isMobile={isMobile} opacity={opacityLastSection}>
-						{/* <TextAnimated isMobile={isMobile}/> */}
-						{/* <DrawStackIcons isMobile={isMobile}/> */}
-				</SectionCustom>
-			 </Scroll>
-			{/* <axesHelper
-			scale={100}
-			position={[0, 0, 0]}
-			rotation={[0, 0, 0]} 
-			/> */}
-			<Stars
-			radius={100}
-			depth={100}
-			count={4000}
-			factor={5.5}
-			saturation={0}
-			fade
-			speed={0.2}
-			/>
-			<PerspectiveCamera
-				makeDefault
-				/**Look forward Y axe */
-				aspect={size.width/size.height}
-				position={[0, 15, -30]}
-				rotation={[0,Math.PI,0]}
-				near={1}
-				zoom={1}
-				//@ts-ignore
-				ref={camRef}
-			/>
-
-			<color attach="background" args={['#000000']} />
-{}
-		<group onClick={onHandler}
-		//@ts-ignore
-		 ref={ref} >
-		{/**First stage */}
-			<group ref={firstStageRef} scale={isMobile ? 1 : 0.6} >
-
-				<spotLight
-					intensity={15}
-					angle={0.4}
-					penumbra={0.4}
-					position={[0, 25, 0]}
-					castShadow
-					color={'purple'}
-					decay={0.2}
-					distance={47}
-					power={35}
-				></spotLight>
-				<pointLight position={[-5, -5, -5]} color='#24D1D3' decay={0.4} />
-				<pointLight position={[5, -5, -5]} color='#322566' decay={0.4} />
-
-				<Table scale={20} />
-				<Monitor scale={11} position={[1, 3.4, 2]} rotation={[0, 22, 0]} />
-				<Mouse />
-				<Aron />
-				<PictureFrame scale={4} position={[8, 0.1, 0]} rotation={[0, 22.5, 0]} />
-				<Keyboard scale={1 / 610} position={[4, 0.25, -1.5]} rotation={[0, 22, 0]} />
-				<Avatar scale={10} position={[0, -7.5, -8.5]} rotation={[0.0, 0, 0]} />
-				<Chair />
-				<mesh scale={30} rotation-x={-Math.PI * 0.5} position-y={-8}>
-					<planeGeometry />
-					<meshPhysicalMaterial
-						color={'#000000'} // Light gray
-						roughness={0.8} // Matte surface
-						metalness={0} // Not metallic
-						clearcoat={0} // No clearcoat
-						clearcoatRoughness={0}
-						opacity={0.1} // Not needed
-					/>
-				</mesh>
-			<group>
-			<group position={[8, 8, 8]} >
-				<NeonText
-					text="ROMERAN RODRIGUEZ"
-					neonColor={neonColor}
-					on={true}
-					position={[-0.5, 2, 0]}
-				/>
-				<NeonText
-					text="FULLSTACK DEVELOPER"
-					neonColor={neonColor}
-					on={true}
-					position={[-0.2, 0.5, 0]}
-				/>
-				<CursiNeonText
-					text="Don't disturb please!"
-					on={on}
-					position={[-2, -2, 0]}
-				/>
-
-			</group>
-			<RockSign />
-			<PlanetNeon />
-			</group>
+                <SectionCustom className={"fourth_stage"} isMobile={isMobile} opacity={opacityLastSection}>
+                    <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi a, iusto vitae quam doloremque, voluptates aspernatur quibusdam nemo inventore hic fugit corporis quisquam cum! Temporibus dignissimos delectus exercitationem. Vitae, totam. Animi adipisci possimus exercitationem doloremque, ratione culpa dignissimos, repudiandae enim quis error aperiam perferendis quasi sint sit alias id minus.</div>
+                </SectionCustom>
+                <SectionCustom className={"last_stage"} isMobile={isMobile} opacity={opacityLastSection}>
+                    <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi a, iusto vitae quam doloremque, voluptates aspernatur quibusdam nemo inventore hic fugit corporis quisquam cum! Temporibus dignissimos delectus exercitationem. Vitae, totam. Animi adipisci possimus exercitationem doloremque, ratione culpa dignissimos, repudiandae enim quis error aperiam perferendis quasi sint sit alias id minus.</div>
+                </SectionCustom>
+            </Scroll>
+            <group  ref={starsRef}>
+                <Stars
+			       
+                    radius={100}
+                    depth={100}
+                    count={3000}
+                    factor={5.5}
+                    saturation={1}
+                    fade // 'fade' también habilita la transparencia internamente
+                    speed={2.5}
+                />
 			</group>
 
-		{/**Second stage */}
-		<group position={[0, FLOOR_HEIGHT ,0]}>
-			<group //@ts-ignore
-			  ref={secondStageRef} >
-				{/**RotatingCube */}
-				<Float
-				    speed={1.2} // Animation speed, defaults to 1
-					rotationIntensity={1.1} // XYZ rotation intensity, defaults to 1
-					floatIntensity={1.01} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-					floatingRange={[1, 1.05]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-				>
-					<NeonText
-						text="ABOUT ME"
-						neonColor={"#9f0057"}
-						on={true}
-						position={[7,30,4.5]}
-						rotation={[Math.PI * 1.5,  Math.PI*2, Math.PI * 1]}
-						scale={2.5}
-					/>
-				</Float>
-			</group>
-			<group position={[-250,0,-60]}
-			//@ts-ignore
-			 ref={spaceShip}>
-				<EffectComposer>
-					<Bloom />
-				</EffectComposer>
-				<Galaxy />
-			</group>
 
-		</group>
-		{/**Third stage */}
-		<group position={[0, FLOOR_HEIGHT*2 , 0]}>
-			<group position={[-40,25,-10]} rotation={[-(Math.PI)/4,Math.PI/8,(Math.PI)]}
-			//@ts-ignore
-			ref={alien}>
-			     <directionalLight position={[-40,25,-10]}   color={"green"} intensity={0.5} />
-				<DancingAlien />
-				<pointLight  position={[-40,25,-10]}   color={"blue"} intensity={40}  />
-			</group>
+            <PerspectiveCamera
+                makeDefault
+                aspect={size.width / size.height}
+                position={[0, 15, -30]}
+                rotation={[0, Math.PI, 0]}
+                near={1}
+                zoom={1}
+                //@ts-ignore
+                ref={camRef}
+            />
 
-			<group
-			//@ts-ignore
-			 ref={thirdStageRef} >
-				<Float
-				    speed={1.2} // Animation speed, defaults to 1
-					rotationIntensity={1.1} // XYZ rotation intensity, defaults to 1
-					floatIntensity={1.01} // Up/down float intensity, works like a multiplier with floatingRange,defaults to 1
-					floatingRange={[1, 1.05]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
-				>
-				<NeonText
-					text="EXPERIENCE"
-					neonColor={"#9f0057"}
-					on={true}
-					position={[7,30,4.5]}
-					rotation={[Math.PI * 1.5,  Math.PI*2, Math.PI * 1]}
-					scale={2.5}
-				/>
+            <group 
+                //@ts-ignore
+                ref={ref} >
+                {/**First stage */}
+                <group ref={firstStageRef} scale={!isMobile ? 1 : 0.6} >
+                     <Office  key={"1"} />
+                </group>
 
-				</Float>
+                {/**Second stage */}
+                <group position={[0, FLOOR_HEIGHT, 0]}>
+                    <group //@ts-ignore
+                        ref={secondStageRef} >
+                        {/**RotatingCube */}
+                        <Float
+                            speed={1.15}
+                            rotationIntensity={1.05}
+                            floatIntensity={1}
+                            floatingRange={[1, 1.005]}
+                        >
+                            <NeonText
+                                text="ABOUT ME"
+                                neonColor={"#9f0057"}
+                                on={true}
+                                position={[9, 30, 4.5]}
+                                rotation={[Math.PI * 1.5, Math.PI * 2, Math.PI * 1]}
+                                scale={2.6}
+                            />
+                        </Float>
+                    </group>
+                    <group position={[-250, 0, -60]}
+                        //@ts-ignore
+                        ref={spaceShip}>
+                        <EffectComposer>
+                            <Bloom />
+                        </EffectComposer>
+                        <Galaxy />
+                    </group>
 
+                </group>
+                {/**Third stage */}
+                <group position={[0, FLOOR_HEIGHT * 2, 0]}>
+                    <group
+                        position={[-40, isMobile ? 1 : 20, -10]}
+                        rotation={[-(Math.PI) / 4, Math.PI / 8, (Math.PI)]}
+                        //@ts-ignore
+                        ref={alien}>
+                        <directionalLight position={[0, 15, -10]} target={alien.current} color={"#189b00"} intensity={1.5} />
+                        <DancingAlien />
+                    </group>
 
+                    <group
+                        //@ts-ignore
+                        ref={thirdStageRef} >
+                        <Float
+                            speed={1.15}
+                            rotationIntensity={1.05}
+                            floatIntensity={1}
+                            floatingRange={[1, 1.005]}
+                        >
+                            <NeonText
+                                text="EXPERIENCE"
+                                neonColor={"#9f0057"}
+                                on={true}
+                                position={[9, 30, 4.5]}
+                                rotation={[Math.PI * 1.5, Math.PI * 2, Math.PI * 1]}
+                                scale={2.6}
+                            />
 
-			</group>
-		</group>
-		{/**Fourth stage */}
-		<group position={[0, FLOOR_HEIGHT*3 , 0]}>
-			<group
-			//@ts-ignore
-			 ref={fourtStageRef} >
-			
-				<mesh scale={4} position={[5,-5,-10]} rotation={[0, 0.5, 0]}>
-					<sphereGeometry />
-					<meshPhysicalMaterial
-						color={'orange'} // Light gray
-						roughness={0.9} // Matte surface
-						metalness={0} // Not metallic
-						clearcoat={0.1} // Pequeño brillo superficial (simulando una capa muy fina)
-						clearcoatRoughness={0.8} // Aspereza de ese brillo
-						sheenRoughness={0.8} // Aspereza del brillo
-						sheen={0.4} // Un sutil efecto de "brillo sedoso" para atmósferas finas
-						sheenColor={'#ffffff'} // Color del brillo
-						emissive={'purple'} // Brillo del planeta (si lo quieres sin luces)
-						emissiveIntensity={1.5} // Intensidad del brillo del planeta
-        />
-				</mesh>
-			</group>
-		</group>
+                        </Float>
 
-		</group>
+                    </group>
+                </group>
+                {/**Fourth stage */}
+                <group position={[0, FLOOR_HEIGHT * 3, 0]}>
+                    <group
+                        //@ts-ignore
+                        ref={fourtStageRef} >
 
-	</group>
-	)
+                        <mesh scale={4} position={[0, 0, -10]} rotation={[0, 0.5, 0]}>
+                            <sphereGeometry />
+                            <meshPhysicalMaterial
+                                color={'purple'}
+                                roughness={0.9}
+                                metalness={0}
+                                clearcoat={0.1}
+                                clearcoatRoughness={0.8}
+                                sheenRoughness={0.8}
+                                sheen={0.4}
+                                sheenColor={'#ffffff'}
+                                emissive={'purple'}
+                                emissiveIntensity={1.5}
+                            />
+                        </mesh>
+                    </group>
+                </group>
+                {/**last stage */}
+                <group position={[0, FLOOR_HEIGHT * 4, 0]}>
+                    <group
+                        //@ts-ignore
+                        ref={lastStageRef} 
+					
+					>
+                        <ambientLight intensity={0} ref={ambientLightRef}/>
+                        <Office key={"2"} dayVersion/>
+  
+
+                        
+
+                    </group>
+                </group>
+            </group>
+        </group>
+    );
 }
 
 //@ts-ignore
 const SectionCustom = (props) => {
-  return (
-    <section className={props.className} /*as="section" center  wrapperClass="wrapper_stage_1"*/  style={{  opacity: props.opacity, padding:"10px", paddingTop: props.isMobile ? "25vh": "20vh",   width:"100vw", display:'flex', justifyContent:'center', flexDirection:props.isMobile ? "row" : "column"}}>
+    return (
+        <section className={props.className} style={{ opacity: props.opacity, padding: "10px", paddingTop: props.isMobile ? "0vh" : "11vh", width: "100vw", display: 'flex', justifyContent: 'center', flexDirection: props.isMobile ? "column" : "row" }}>
             {props.children}
-    </section  >
-  );
+        </section>
+    );
 };

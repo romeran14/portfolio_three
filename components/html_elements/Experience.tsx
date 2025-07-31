@@ -69,7 +69,7 @@ export const Experience = memo(function Experience() {
                                 src={"/svg/git-svgrepo-com.svg"} 
                                 className="image_exp" width={60} height={60}
                                 />
-                            <Image light-expo-svgrepo-com
+                            <Image
                                 alt="node icon" 
                                 src={"/svg/nodejs02-svgrepo-com.svg"} 
                                 className="image_exp" width={60} height={60}
@@ -173,7 +173,7 @@ export const Experience = memo(function Experience() {
                                         src={"/svg/joomla-svgrepo-com.svg"} 
                                         className="image_exp" width={60} height={60}
                                         />
-                                    <Image light-expo-svgrepo-com
+                                    <Image
                                         alt="html icon" 
                                         src={"/svg/html5-01-svgrepo-com.svg"} 
                                         className="image_exp" width={60} height={60}
@@ -206,7 +206,7 @@ export const Experience = memo(function Experience() {
                                 </div>
                             </div>
                             <div className="contentBox">
-                                <h4>Frontend Activities</h4>
+                                <h4 className="card1" >Frontend Activities</h4>
                                 <ul>
                                     <li>Installing, configuring, and managing Joomla CMS installations.</li>
                                     <li>Evaluating, installing, and configuring third-party Joomla extensions (components, modules, plugins).</li>

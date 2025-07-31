@@ -8,7 +8,7 @@ export function NeonText({ text, neonColor, on, ...props }) {
 
   useFrame(() => {
     if (on && materialRef.current) {
-      const intensity = 1.3 + Math.random() * 2 // Rango más amplio para notar el flicker
+      const intensity = 1 + Math.random() * 1.1 // Rango más amplio para notar el flicker
       materialRef.current.emissiveIntensity = intensity
 
     } else if (materialRef.current) {

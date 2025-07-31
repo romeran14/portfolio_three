@@ -30,3 +30,4 @@ export const Monitor = (props) => {
   )
 }
 useGLTF.preload('/monitor/monitor.glb')
+useTexture.preload('/textures/monitor_screen.jpg')

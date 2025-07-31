@@ -63,7 +63,7 @@ const TextAnimated = ({isMobile}:Props) => {
 				if (!gsap.isTweening(target) && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
 
 					gsap.to(target, {
-						duration: 2,
+						duration: 4,
 						ease: 'sine.in',
 						scrambleText: {
 							text: target?.innerText,
@@ -78,7 +78,7 @@ const TextAnimated = ({isMobile}:Props) => {
     const [oberserverRef, isIntersecting] = useIntersectionObserver(    {
       options: {
         threshold: 0.1, // 0.0 significa que el callback se ejecutará tan pronto como 1 píxel del elemento sea visible. 1.0 significa que el callback solo se ejecutará cuando todo el elemento sea visible.
-        rootMargin: '0px', // Añade un margen inferior de 100px al root (viewport)
+        rootMargin: '-100px', // Añade un margen inferior de 100px al root (viewport)
       },
       onIntersect: scrambleAll // Pasa la función de animación
     })
@@ -92,7 +92,7 @@ const TextAnimated = ({isMobile}:Props) => {
 		<div  ref={ref} className="text_animated_container">
 
 			<section ref={oberserverRef} className="text_animated">
-				{isMobile? 
+				{!isMobile? 
 					<>
 				<p
 					onPointerEnter={(e) =>  scramble(e)}

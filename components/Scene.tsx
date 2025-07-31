@@ -20,15 +20,16 @@ export default function Scene() {
 
       <Suspense fallback={<Loader />}>
         {/* <OrbitControls
-          //minPolarAngle={Math.PI / 3}   // mínimo ángulo vertical (ejemplo)
-          //maxPolarAngle={Math.PI / 1.7} // máximo ángulo vertical (ejemplo)
-          //enableZoom={false}           // desactiva zoom
+          minPolarAngle={Math.PI / 3}   // mínimo ángulo vertical (ejemplo)
+          maxPolarAngle={Math.PI / 1.7} // máximo ángulo vertical (ejemplo)
+          enableZoom={false}           // desactiva zoom
+          maxAzimuthAngle={Math.PI / 3}
           //enablePan={false}
           //enabled={false}
-          maxZoom={1}
-          minZoom={1}
+          maxZoom={0.15}
+          minZoom={0.15}
           //enableRotate={false}
-          maxDistance={20}
+          maxDistance={30}
           minDistance={10}
         />  */}
         <ScrollControls

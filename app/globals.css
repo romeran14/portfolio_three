@@ -25,6 +25,7 @@ body {
 main{
 	font-family: 'Reddit Mono', monospace;
   color: #dddddd;
+  background-color: #000000;
 }
 
 @layer utilities {
@@ -193,12 +194,17 @@ main{
 
 .second_stage{
 	position: absolute;
-	top:120vh
+	top:100vh
 }
 
 .third_stage{
 	position: absolute;
-	top:200vh
+	top:175vh
+}
+
+.fourth_stage{
+	position: absolute;
+	top:260vh
 }
 
 .last_stage{
@@ -233,7 +239,7 @@ main{
 	font-size: 12px;
 	transform-style: preserve-3d;
 	perspective: 1000px;
-	background-color: #171717;
+	background-color: #101010;
   @media only screen and (max-width: 980px) {
 		width: 90%;
   }

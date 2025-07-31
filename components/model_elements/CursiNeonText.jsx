@@ -2,22 +2,19 @@ import { useRef, useEffect, useState } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Text3D } from '@react-three/drei'
 
-export function CursiNeonText({ text, on, ...props }) {
+export function CursiNeonText({ text, ...props }) {
   const materialRef = useRef()
   const [active, setActive] = useState(false)
   const pinkneonColor = active ? "#9f0057" : '#222'
 
   useEffect(() => {
-    if (on) {
-      setActive(false)
+    
       const timer = setTimeout(() => {
         setActive(true)
       }, 3000)
       return () => clearTimeout(timer)
-    } else {
-      setActive(false)
-    }
-  }, [on])
+  
+  }, [])
 
   useFrame(() => {
     if (active && materialRef.current) {

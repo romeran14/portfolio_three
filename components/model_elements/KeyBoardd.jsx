@@ -1,11 +1,10 @@
 import { useGLTF } from "@react-three/drei"
 
-export const Keyboard = (props) => {
+export const Keyboardd = (props) => {
 
-  //const { scene } = useGLTF('/keyboard/keyboard.glb')
    const { nodes, materials } = useGLTF('/keyboard/keyboard.glb')
   return (
-    // <primitive object={scene.clone()} scale={1 / 500} {...props} />
+
         <group scale={1 / 500} {...props} dispose={null}>
       <group
         position={[957.113, -168.757, 0]}

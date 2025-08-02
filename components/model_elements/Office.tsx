@@ -4,7 +4,7 @@ import { Monitor } from './Monitor'
 import { Mouse } from './Mouse'
 import { Aron } from './Aron'
 import { PictureFrame } from './PictureFrame'
-import { Keyboard } from './Keyboard'
+import { Keyboardd } from './KeyBoardd'
 import { Avatar } from './Avatar'
 import { Chair } from './Chair'
 import { NeonText } from './NeonText'
@@ -50,7 +50,7 @@ const Office = ({dayVersion}:Props) => {
         <Mouse />
         <Aron />
         <PictureFrame scale={4} position={[8, 0.1, 0]} rotation={[0, 22.5, 0]} />
-        <Keyboard scale={1 / 610} position={[4, 0.25, -1.5]} rotation={[0, 22, 0]} />
+        <Keyboardd scale={1 / 610} position={[4, 0.25, -1.5]} rotation={[0, 22, 0]} />
         <Avatar scale={10} position={[0, -7.5, -8.5]} rotation={[0.0, 0, 0]} />
         <Chair />
         <mesh scale={35} rotation-x={-Math.PI * 0.5} position-y={-8} position-x={2}>

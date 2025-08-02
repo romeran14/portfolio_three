@@ -238,7 +238,10 @@ export default function Model() {
     }, { scope: group });
 
     return (
-        <group ref={group}>
+      
+        <group 
+         //@ts-ignore
+        ref={group}>
             <Scroll html>
                 <SectionCustom className={"second_stage"} isMobile={isMobile} opacity={opacitySecondSection}>
                     <TextAnimated isMobile={isMobile} />
@@ -383,7 +386,9 @@ export default function Model() {
                         ref={lastStageRef} 
 					
 					>
-                        <ambientLight intensity={0} ref={ambientLightRef}/>
+                        <ambientLight intensity={0} 
+                        //@ts-ignore
+                        ref={ambientLightRef}/>
                         <Office key={"2"} dayVersion/>
   
 

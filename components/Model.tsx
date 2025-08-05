@@ -2,7 +2,7 @@ import {  PerspectiveCamera, Stars, useScroll, Scroll, Float } from "@react-thre
 import { useFrame, useThree, ThreeElements } from "@react-three/fiber";
 import gsap from "gsap";
 import { useEffect, useRef, useState, } from "react";
-import { Group } from "three";
+import { Group, DirectionalLight } from "three";
 import * as THREE from "three";
 import { NeonText } from "./model_elements/NeonText";
 import { Galaxy } from "./model_elements/Galaxy";
@@ -61,10 +61,11 @@ export default function Model() {
     const group = useRef();
     const scroll = useScroll();
     const ambientLightRef = useRef<ThreeElements["ambientLight"]>()
+    const greenLightRef = useRef<ThreeElements["directionalLight"]>()
 
     const starsRef = useRef<THREE.Group>(null);
     const backgroundColor = useRef(new THREE.Color(0x000000));
-    const skyBlue = new THREE.Color(0x87CEEB);
+    const skyBlue = new THREE.Color("#eeeeee");
     const black = new THREE.Color(0x000000); // Define el color negro
 
     useEffect(() => {
@@ -222,8 +223,6 @@ export default function Model() {
             0.15
         );
 
-        
-
         tl.current.to(
            
             ambientLightRef?.current,
@@ -234,7 +233,39 @@ export default function Model() {
             },
             3
         );
-      
+
+        tl.current.to(
+           
+            greenLightRef?.current,
+            {
+                duration: 0.1,
+                intensity: 0,
+                ease: 'power2.inOut',
+            },
+            0.1
+        );
+        tl.current.to(
+            //@ts-ignore
+            lastStageRef.current.position,
+            {
+                duration: 1.2,
+                ease: 'power2.inOut',
+                //rotation: -Math.PI / 2,
+                x:0
+            },
+             "-=2"
+        );
+                tl.current.to(
+            //@ts-ignore
+            lastStageRef.current.rotation,
+            {
+                duration: 1.5,
+                ease: 'power2.inOut',
+                z: Math.PI*0.15,
+            
+            },
+             "<" 
+        );
     }, { scope: group });
 
     return (
@@ -330,7 +361,7 @@ export default function Model() {
                         rotation={[-(Math.PI) / 4, Math.PI / 8, (Math.PI)]}
                         //@ts-ignore
                         ref={alien}>
-                        <directionalLight position={[0, 15, -10]} target={alien.current} color={"#189b00"} intensity={1.5} />
+                        <directionalLight ref={greenLightRef} position={[0, 15, -10]} target={alien.current} color={"#189b00"} intensity={1} />
                         <DancingAlien />
                     </group>
 
@@ -384,7 +415,8 @@ export default function Model() {
                     <group
                         //@ts-ignore
                         ref={lastStageRef} 
-					
+					    position={[-70,0,0]}
+                        rotation={[0,0,Math.PI*1.4]} 
 					>
                         <ambientLight intensity={0} 
                         //@ts-ignore

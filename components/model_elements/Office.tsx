@@ -68,8 +68,8 @@ const Office = ({dayVersion}:Props) => {
         {
             dayVersion &&
             <>
-            <mesh  rotation-y={-Math.PI * 0.5} position-y={2.65} position-x={20}>
-                <planeGeometry args={[34, 22]}  />
+            <mesh  rotation-y={-Math.PI * 0.5} position-y={2.65} position-x={19.5}>
+                <planeGeometry args={[34.5, 22]}  />
                 <meshPhysicalMaterial
                     color={'purple'} // Light gray
                     roughness={0.9}   // Muy rugoso para un aspecto mate, como pintura seca

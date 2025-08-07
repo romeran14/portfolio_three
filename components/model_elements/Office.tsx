@@ -11,8 +11,9 @@ import { NeonText } from './NeonText'
 import { CursiNeonText } from './CursiNeonText'
 import { RockSign } from './RockSign'
 import { PlanetNeon } from './PlanetNeon'
-import { GroupProps, useLoader } from '@react-three/fiber'
-import { TextureLoader } from 'three'
+import { GroupProps, useLoader, useFrame } from '@react-three/fiber'
+import { Group, Object3DEventMap, TextureLoader } from 'three'
+import  { Ref, useRef }  from 'react'
 
 interface Props{
     dayVersion?:boolean;
@@ -28,9 +29,17 @@ const Office = ({dayVersion}:Props) => {
     //dispose:null
    }
 
+    const ref = useRef<Group<Object3DEventMap>>(null);
+
      const floorTexture = useLoader(TextureLoader, '/textures/wood_floor.png');
+
+    useFrame(() => {
+      if (ref.current && dayVersion) {
+        ref.current.rotation.y += 0.007; // Rotates around the Y-axis
+      }
+    });
   return (
-    <group {...dayVersionaProps}>
+    <group ref={ref} {...dayVersionaProps}>
         <spotLight
             intensity={15}
             angle={0.4}
@@ -65,7 +74,7 @@ const Office = ({dayVersion}:Props) => {
                 opacity={0.1} // Not needed
             />
         </mesh>
-        {
+        {/* {
             dayVersion &&
             <>
             <mesh  rotation-y={-Math.PI * 0.5} position-y={2.65} position-x={19.5}>
@@ -100,7 +109,7 @@ const Office = ({dayVersion}:Props) => {
                 />
             </mesh>
             </>
-        }
+        } */}
         <group>
             <group position={[8, 8, 8]} >
                 <NeonText

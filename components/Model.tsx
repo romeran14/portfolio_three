@@ -1,7 +1,7 @@
-import {  PerspectiveCamera, Stars, useScroll, Scroll, Float } from "@react-three/drei";
+import {  PerspectiveCamera, Stars, useScroll, Scroll, Float, Sky } from "@react-three/drei";
 import { useFrame, useThree, ThreeElements } from "@react-three/fiber";
 import gsap from "gsap";
-import { useEffect, useRef, useState, } from "react";
+import { Ref, useEffect, useRef, useState, } from "react";
 import { Group, DirectionalLight } from "three";
 import * as THREE from "three";
 import { NeonText } from "./model_elements/NeonText";
@@ -13,6 +13,7 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { Experience } from "./html_elements/Experience";
 import { useGSAP } from '@gsap/react';
 import Office from "./model_elements/Office";
+import { useControls } from 'leva'
 
 gsap.registerPlugin(useGSAP);
 
@@ -39,7 +40,7 @@ export default function Model() {
     const [opacityThirdSection, setOpacityThirdSection] = useState(0);
     const [opacityLastSection, setOpacityLastSection] = useState(0);
 
-
+const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0  })
 
     const ref = useRef();
     //@ts-ignore 
@@ -62,16 +63,18 @@ export default function Model() {
     const scroll = useScroll();
     const ambientLightRef = useRef<ThreeElements["ambientLight"]>()
     const greenLightRef = useRef<ThreeElements["directionalLight"]>()
+    const dayOfficeRef = useRef<Ref<Group<THREE.Object3DEventMap>>>()
 
     const starsRef = useRef<THREE.Group>(null);
     const backgroundColor = useRef(new THREE.Color(0x000000));
-    const skyBlue = new THREE.Color("#eeeeee");
+    const skyBlue = new THREE.Color(0x000000);
     const black = new THREE.Color(0x000000); // Define el color negro
 
     useEffect(() => {
         if (!ref.current && !camRef.current) return;
         //@ts-ignore
         camRef.current.lookAt(vector);
+        //gl.setClearAlpha(0)
     }, []);
 
     const handleFirstCurve = () => {
@@ -114,21 +117,28 @@ export default function Model() {
         const colorTransitionStart = 0.70;
         const colorTransitionEnd = 0.95;
 
+        let alpha
         if (scrollPercent >= colorTransitionStart && scrollPercent <= colorTransitionEnd) {
             const progress = (scrollPercent - colorTransitionStart) / (colorTransitionEnd - colorTransitionStart);
+            
+            alpha = 1 - progress
+            console.log(1 - progress)
             backgroundColor.current.lerpColors(black, skyBlue, progress);
         } else if (scrollPercent < colorTransitionStart) {
             backgroundColor.current.set(black);
+            alpha = 1
         } else {
             backgroundColor.current.set(skyBlue);
+            alpha = 0
         }
-        gl.setClearColor(backgroundColor.current);
+        
+        gl.setClearColor(backgroundColor.current,alpha);
     });
 
     useGSAP(() => {
         //@ts-ignore
-        if (!ref.current && !camRef.current && !ambientLightRef.current) return;
-        console.log(starsRef.current)
+        if (!ref.current && !camRef.current && !ambientLightRef.current && !dayOfficeRef.current) return;
+       
         tl.current = gsap.timeline();
         const scrollPercentage = scroll.offset * 100;
 
@@ -248,24 +258,14 @@ export default function Model() {
             //@ts-ignore
             lastStageRef.current.position,
             {
-                duration: 1.2,
-                ease: 'power2.inOut',
-                //rotation: -Math.PI / 2,
-                x:0
-            },
-             "-=2"
-        );
-                tl.current.to(
-            //@ts-ignore
-            lastStageRef.current.rotation,
-            {
                 duration: 1.5,
                 ease: 'power2.inOut',
-                z: Math.PI*0.15,
-            
+                //rotation: -Math.PI / 2,
+                x:isMobile? 11 : -8
             },
-             "<" 
+             "-=1.5"
         );
+
     }, { scope: group });
 
     return (
@@ -319,7 +319,7 @@ export default function Model() {
                 //@ts-ignore
                 ref={ref} >
                 {/**First stage */}
-                <group ref={firstStageRef} scale={!isMobile ? 1 : 0.6} >
+                <group ref={firstStageRef} scale={!isMobile ? 1 : 0.5} >
                      <Office  key={"1"} />
                 </group>
 
@@ -340,7 +340,7 @@ export default function Model() {
                                 on={true}
                                 position={[9, 30, 4.5]}
                                 rotation={[Math.PI * 1.5, Math.PI * 2, Math.PI * 1]}
-                                scale={2.6}
+                                scale={isMobile ? 2.1 : 2.6}
                             />
                         </Float>
                     </group>
@@ -361,7 +361,13 @@ export default function Model() {
                         rotation={[-(Math.PI) / 4, Math.PI / 8, (Math.PI)]}
                         //@ts-ignore
                         ref={alien}>
-                        <directionalLight ref={greenLightRef} position={[0, 15, -10]} target={alien.current} color={"#189b00"} intensity={1} />
+                        <directionalLight
+                           //@ts-ignore
+                           ref={greenLightRef}
+                           position={[0, 15, -10]}
+                           target={alien.current}
+                           color={"#189b00"}
+                           intensity={1} />
                         <DancingAlien />
                     </group>
 
@@ -380,7 +386,7 @@ export default function Model() {
                                 on={true}
                                 position={[9, 30, 4.5]}
                                 rotation={[Math.PI * 1.5, Math.PI * 2, Math.PI * 1]}
-                                scale={2.6}
+                                scale={isMobile ? 2.1 : 2.6}
                             />
 
                         </Float>
@@ -412,19 +418,27 @@ export default function Model() {
                 </group>
                 {/**last stage */}
                 <group position={[0, FLOOR_HEIGHT * 4, 0]}>
+                    <NeonText
+                        text="CONTACT ME"
+                        neonColor={"#9f0057"}
+                        on={true}
+                        position={[9, 30, 4.5]}
+                        rotation={[Math.PI * 1.5, Math.PI * 2, Math.PI * 1]}
+                        scale={isMobile ? 2.1 : 2.6}
+                    />
                     <group
                         //@ts-ignore
                         ref={lastStageRef} 
-					    position={[-70,0,0]}
-                        rotation={[0,0,Math.PI*1.4]} 
+					    position={ isMobile ? [-70,5,-50] : [-20,0,-25]}
+                        rotation={[0.4,0,0]} 
+                        scale={ isMobile ? 0.55 : 1 }
 					>
                         <ambientLight intensity={0} 
                         //@ts-ignore
                         ref={ambientLightRef}/>
-                        <Office key={"2"} dayVersion/>
-  
-
-                        
+                        <spotLight intensity={10} color={"orange"}>
+                           <Office key={"2"} dayVersion/> 
+                        </spotLight>
 
                     </group>
                 </group>

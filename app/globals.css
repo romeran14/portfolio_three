@@ -24,8 +24,23 @@ body {
 
 main{
 	font-family: 'Reddit Mono', monospace;
-  color: #dddddd;
-  background-color: #000000;
+	color: #dddddd;
+	background-color: orange;
+	background: linear-gradient(200deg,#1c002d 0%,  #370058 45%,#831100 80%,#db6300 95%);
+	background-size: 180% 180%;
+	animation: gradient-animation 6.5s ease infinite;
+}
+
+@keyframes gradient-animation {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
 
 @layer utilities {
@@ -220,10 +235,10 @@ main{
 	height: 100vh;
 	align-items: center;
 
-  @media only screen and (max-width: 980px) {
-    flex-direction: column;
-    gap:40px;
-  }
+		@media only screen and (max-width: 980px) {
+			flex-direction: column;
+			gap:40px;
+		}
 }
 
 
@@ -240,9 +255,9 @@ main{
 	transform-style: preserve-3d;
 	perspective: 1000px;
 	background-color: #101010;
-  @media only screen and (max-width: 980px) {
+		@media only screen and (max-width: 980px) {
 		width: 90%;
-  }
+		}
 }
 
 .card::after {
@@ -306,10 +321,10 @@ transform: translateZ(30px);
 	text-shadow: black 2px 2px 2px 5px;
 	transition: all 0.5s ease;
 	margin-bottom: 15px;
-      @media only screen and (min-width: 768px) and (max-width: 1199px) {
-      font-size: 18px;
-      white-space: pre;
-    }
+		@media only screen and (min-width: 768px) and (max-width: 1199px) {
+		font-size: 18px;
+		white-space: pre;
+		}
 }
 
 
@@ -346,7 +361,7 @@ transform: translateZ(30px);
 		align-items: center;
 		gap: 0.5rem;
 		cursor: pointer;
-   
+
 	}
 
 	.tabsContainer .tabsBox button>* {
@@ -365,69 +380,69 @@ transform: translateZ(30px);
 	.tabsContentContainer {
 		display: flex;
 		overflow: hidden;
-    min-height: 400px;
-    max-height: 400px;
-    @media only screen and (min-width: 768px) and (max-width: 1199px) {
-      max-height: 100%;
-      min-height: 100%;
-    }
+			min-height: 400px;
+			max-height: 400px;
+			@media only screen and (min-width: 768px) and (max-width: 1199px) {
+				max-height: 100%;
+				min-height: 100%;
+			}
 	}
 
 	.tabsContentContainer .contentBox {
 		flex-shrink: 0;
 		width: 100%;
 		padding:1rem;
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-    max-height: 100%;
+			display: flex;
+			flex-direction: column;
+			min-height: 100%;
+			max-height: 100%;
 
 		ul{
 			list-style: inside;
 		}
-    @media only screen and (max-width: 1199px) {
-      max-height: 380px;
-      overflow: auto;
-    }
-    @media only screen and (max-width: 767px) {
-      padding-inline:0;
-    }
+			@media only screen and (max-width: 1199px) {
+				max-height: 380px;
+				overflow: auto;
+			}
+			@media only screen and (max-width: 767px) {
+				padding-inline:0;
+			}
 
 
 	}
 .icons_filler{
-  margin-top: auto;
-  margin-bottom: 0;
-  padding: 20px 0;
-  display: flex;
-  justify-content: space-between;
-      @media only screen and (max-width: 767px) {
-     flex-wrap: wrap;
-     gap: 14%;
-     justify-content: start;
-  }
+	margin-top: auto;
+	margin-bottom: 0;
+	padding: 20px 0;
+	display: flex;
+	justify-content: space-between;
+		@media only screen and (max-width: 767px) {
+		flex-wrap: wrap;
+		gap: 14%;
+		justify-content: start;
+	}
 }
-     .image_exp{
-        transition: all 0.3s ease-in-out 0.1s;
-        filter: invert(1) drop-shadow(2px 4px 10px black);
-       &:hover{
-        animation: bouncing 0.5s .3s;
+	.image_exp{
+		transition: all 0.3s ease-in-out 0.1s;
+		filter: invert(1) drop-shadow(2px 4px 10px black);
+		&:hover{
+			animation: bouncing 0.5s .3s;
 
-      }
-          @media only screen and (min-width: 768px) and (max-width: 1199px) {
-      width: 40px;
-      height: 40px;
-    }
-          @media only screen and (max-width: 767px) {
-     margin-bottom: 5%;
+		}
+			@media only screen and (min-width: 768px) and (max-width: 1199px) {
+		width: 40px;
+		height: 40px;
+	}
+		@media only screen and (max-width: 767px) {
+		margin-bottom: 5%;
 
-  }
+	}
 
-      }
+		}
 
-  @keyframes bouncing {
-  from, to { transform: scale(1, 1); }
-  25% { transform: scale(0.9, 1.1); }
-  50% { transform: scale(1.1, 0.9); }
-  75% { transform: scale(0.95, 1.05); }
+	@keyframes bouncing {
+	from, to { transform: scale(1, 1); }
+	25% { transform: scale(0.9, 1.1); }
+	50% { transform: scale(1.1, 0.9); }
+	75% { transform: scale(0.95, 1.05); }
 }

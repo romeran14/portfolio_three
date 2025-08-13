@@ -1,8 +1,8 @@
-import {  PerspectiveCamera, Stars, useScroll, Scroll, Float, Sky } from "@react-three/drei";
+import {  PerspectiveCamera, Stars, useScroll, Scroll, Float } from "@react-three/drei";
 import { useFrame, useThree, ThreeElements } from "@react-three/fiber";
 import gsap from "gsap";
 import { Ref, useEffect, useRef, useState, } from "react";
-import { Group, DirectionalLight } from "three";
+import { Group } from "three";
 import * as THREE from "three";
 import { NeonText } from "./model_elements/NeonText";
 import { Galaxy } from "./model_elements/Galaxy";
@@ -13,7 +13,8 @@ import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { Experience } from "./html_elements/Experience";
 import { useGSAP } from '@gsap/react';
 import Office from "./model_elements/Office";
-import { useControls } from 'leva'
+import { useControls } from 'leva';
+import ContactLayout from './Contactlayout'
 
 gsap.registerPlugin(useGSAP);
 
@@ -40,7 +41,7 @@ export default function Model() {
     const [opacityThirdSection, setOpacityThirdSection] = useState(0);
     const [opacityLastSection, setOpacityLastSection] = useState(0);
 
-const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0  })
+   const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0  })
 
     const ref = useRef();
     //@ts-ignore 
@@ -418,6 +419,11 @@ const { positionx, positiony, positionz } = useControls({ positionx:0 , position
                 </group>
                 {/**last stage */}
                 <group position={[0, FLOOR_HEIGHT * 4, 0]}>
+                    <ContactLayout
+                        position={[11, 64, 2]}
+                        //-1.3, 0
+                        rotation={[positionx, positiony, positionz]}
+                    />
                     <NeonText
                         text="CONTACT ME"
                         neonColor={"#9f0057"}

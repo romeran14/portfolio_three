@@ -123,7 +123,7 @@ export default function Model() {
             const progress = (scrollPercent - colorTransitionStart) / (colorTransitionEnd - colorTransitionStart);
             
             alpha = 1 - progress
-            console.log(1 - progress)
+
             backgroundColor.current.lerpColors(black, skyBlue, progress);
         } else if (scrollPercent < colorTransitionStart) {
             backgroundColor.current.set(black);
@@ -420,9 +420,10 @@ export default function Model() {
                 {/**last stage */}
                 <group position={[0, FLOOR_HEIGHT * 4, 0]}>
                     <ContactLayout
-                        position={[11, 64, 2]}
-                        //-1.3, 0
-                        rotation={[positionx, positiony, positionz]}
+                        position={ isMobile ? [1,-5,-29] : [11, 64, 2.5]}
+                        //-1.2, 0
+                        rotation={isMobile ? [( -Math.PI*3.23)/10,positiony,0] : [( -Math.PI*3.23)/10,( -Math.PI*0.13),0]}
+                        scale={ isMobile ? 3.2 : 1}
                     />
                     <NeonText
                         text="CONTACT ME"

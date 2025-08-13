@@ -1,51 +1,71 @@
 import React, { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { RoundedBox, Text } from '@react-three/drei';
+import { RoundedBox, Text, Text3D } from '@react-three/drei';
 import { LinkedinIcon } from "./model_elements/LinkedinIcon";
 import { MailIcon } from "./model_elements/MailIcon";
 import { GithubIcon} from "./model_elements/GithubIcon";
+import { useControls } from "leva";
 
 const ContactLayout = (props) => {
-  const orbitGroupRef = useRef();
-  const roundedBoxRef = useRef();
+	const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0 })
 
-  const linkedinRef = useRef()
-  const githubRef = useRef()
-  const mailRef = useRef()
+	const orbitGroupRef = useRef();
+	const roundedBoxRef = useRef();
 
-  // useFrame se ejecuta en cada fotograma
-  useFrame(({ clock }) => {
-    // Si el grupo de órbita existe, rotamos su eje Y
-    if (orbitGroupRef.current && linkedinRef.current) {
-      orbitGroupRef.current.rotation.z = clock.elapsedTime * 0.5; // Ajusta el 0.5 para cambiar la velocidad
+	// Define la velocidad de rotación una sola vez
+	const rotationSpeed = 0.5;
 
-      linkedinRef.current.rotation.z = -clock.elapsedTime * 0.25; 
-    }
-  });
+	// useFrame se ejecuta en cada fotograma
+	useFrame(({ clock }) => {
+		// Si el grupo de órbita existe, rotamos su eje Z (como ya lo tenías)
+		if (orbitGroupRef.current) {
+			orbitGroupRef.current.rotation.z = clock.elapsedTime * rotationSpeed;
+		}
 
-  return (
-    <group {...props}>
-      {/* Grupo que actúa como el pivot para la órbita */}
-      <group ref={orbitGroupRef}>
-        {/* Posiciona los íconos lejos del centro (0,0,0) del grupo */}
-        <MailIcon position={[0, 0, 5]} />
-        <GithubIcon position={[5, 0, 0]} />
-        <group ref={linkedinRef}>
-          <LinkedinIcon  position={[-5, 0, 0]}/>
-        </group>
-       
-      </group>
+	});
 
-      {/* El RoundedBox se mantiene estático en el centro */}
-      <RoundedBox args={[2, 5, 0.5]} radius={0.1} ref={roundedBoxRef}>
-        <meshStandardMaterial color="white" />
-        <Text height={2}>
-          CV
-          <meshStandardMaterial color="black" />
-        </Text>
-      </RoundedBox>
-    </group>
-  );
+  //cv-Romeran-Rodriguez.pdf
+
+  const redirectTo = () => {
+    window.open("/cv-Romeran-Rodriguez.pdf", '_blank');
+  }
+	return (
+		<group {...props}>
+			{/* Grupo que actúa como el pivot para la órbita */}
+			<group ref={orbitGroupRef}>
+
+				{/* Posiciona los íconos lejos del centro (0,0,0) del grupo */}
+				{/* Agrega las referencias a cada ícono para poder manipularlos */}
+				<MailIcon position={[0, -4.1,0]} />
+				<GithubIcon position={[2.5, -1, 0]}/>
+				<LinkedinIcon position={[-2.5, -0.85, 0]} />
+			</group>
+
+			{/* El RoundedBox se mantiene estático en el centro */}
+			<RoundedBox onClick={redirectTo} rotation={[0,0,Math.PI]} args={[2, 2.7, 0.4]} scale={1.4} radius={0.1} ref={roundedBoxRef}>
+				<meshStandardMaterial color="white" />
+				<Text fontWeight={800} position={[0,0.82,1]} scale={0.23} color={"black"} height={2}>
+					Resume
+
+				</Text>
+
+				<Text fontWeight={400} position={[0.035,-0.2,1]} textAlign="justify" fontSize={0.15} scale={0.75} color={"black"} maxWidth={1.95}>
+					Lorem ipsum dolor sit.
+						consectetur adipisicing
+							elit. Id, optio.
+								Lorem ipsum dolor sit.
+						consectetur adipisicing
+							elit. Id, optio.
+								Lorem ipsum dolor sit.
+						consectetur adipisicing
+							elit. Id, optio.
+								Lorem ipsum dolor sit.
+						consectetur adipisicing
+							elit. Id, optio.
+				</Text>
+			</RoundedBox>
+		</group>
+	);
 };
 
 export default ContactLayout;

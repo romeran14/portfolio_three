@@ -24,7 +24,7 @@ export default function Scene() {
           maxPolarAngle={Math.PI / 1.7} // máximo ángulo vertical (ejemplo)
           enableZoom={false}           // desactiva zoom
           maxAzimuthAngle={Math.PI / 3}
-          //enablePan={false}
+          enablePan={true}
           //enabled={false}
           maxZoom={0.15}
           minZoom={0.15}

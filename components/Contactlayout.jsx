@@ -1,13 +1,11 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { RoundedBox, Text, Text3D } from '@react-three/drei';
+import { RoundedBox, Text} from '@react-three/drei';
 import { LinkedinIcon } from "./model_elements/LinkedinIcon";
 import { MailIcon } from "./model_elements/MailIcon";
 import { GithubIcon} from "./model_elements/GithubIcon";
-import { useControls } from "leva";
 
 const ContactLayout = (props) => {
-	const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0 })
 
 	const orbitGroupRef = useRef();
 	const roundedBoxRef = useRef();

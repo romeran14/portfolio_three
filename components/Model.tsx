@@ -1,4 +1,4 @@
-import {  PerspectiveCamera, Stars, useScroll, Scroll, Float } from "@react-three/drei";
+import {  PerspectiveCamera, Stars, useScroll, Scroll, Float, OrbitControls } from "@react-three/drei";
 import { useFrame, useThree, ThreeElements } from "@react-three/fiber";
 import gsap from "gsap";
 import { Ref, useEffect, useRef, useState, } from "react";
@@ -15,6 +15,7 @@ import { useGSAP } from '@gsap/react';
 import Office from "./model_elements/Office";
 import { useControls } from 'leva';
 import ContactLayout from './Contactlayout'
+import { Carousel } from "./Carousel";
 
 gsap.registerPlugin(useGSAP);
 
@@ -40,8 +41,8 @@ export default function Model() {
     const [opacitySecondSection, setOpacitySecondSection] = useState(0);
     const [opacityThirdSection, setOpacityThirdSection] = useState(0);
     const [opacityLastSection, setOpacityLastSection] = useState(0);
-
-   //const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0  })
+   //[9, 30, 4.5]
+   const { positionx, positiony, positionz } = useControls({ positionx:9 , positiony:30 ,positionz:4.5  })
 
     const ref = useRef();
     //@ts-ignore 
@@ -104,6 +105,7 @@ export default function Model() {
             return;
         }
     };
+    
 
     useFrame(() => {
         tl.current.seek(scroll.offset * tl.current.duration());
@@ -162,7 +164,7 @@ export default function Model() {
                 z: (FLOOR_HEIGHT * (NB_FLOORS - 3)) + 25,
                 ease: 'power2.inOut',
             },
-            "+=1.5"
+            "+=2"
         );
 
         tl.current.to(
@@ -173,20 +175,8 @@ export default function Model() {
                 z: ((FLOOR_HEIGHT * (NB_FLOORS - 2))) + 25,
                 ease: 'power2.inOut',
             },
-            "+=1.5"
+            "+=2"
         );
-
-	    // tl.current.to(
-        //     //@ts-ignore
-        //     starsRef.current?.,
-        //     {
-		// 		value:false,
-        //         //duration: 1,
-
-        //         //ease: 'power2.inOut',
-        //     },
-        //     0.2
-        // );	
 
         tl.current.to(
             //@ts-ignore
@@ -196,7 +186,7 @@ export default function Model() {
                 z: ((FLOOR_HEIGHT * (NB_FLOORS - 1))) + 25,
                 ease: 'power2.inOut',
             },
-            "+=1.5"
+            "+=2"
         );
 
         //ROTATION
@@ -284,11 +274,8 @@ export default function Model() {
                     <Experience />
                 </SectionCustom>
 
-                <SectionCustom className={"fourth_stage"} isMobile={isMobile} opacity={opacityLastSection}>
-                    <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi a, iusto vitae quam doloremque, voluptates aspernatur quibusdam nemo inventore hic fugit corporis quisquam cum! Temporibus dignissimos delectus exercitationem. Vitae, totam. Animi adipisci possimus exercitationem doloremque, ratione culpa dignissimos, repudiandae enim quis error aperiam perferendis quasi sint sit alias id minus.</div>
-                </SectionCustom>
-                <SectionCustom className={"last_stage"} isMobile={isMobile} opacity={opacityLastSection}>
-                    <div>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quasi a, iusto vitae quam doloremque, voluptates aspernatur quibusdam nemo inventore hic fugit corporis quisquam cum! Temporibus dignissimos delectus exercitationem. Vitae, totam. Animi adipisci possimus exercitationem doloremque, ratione culpa dignissimos, repudiandae enim quis error aperiam perferendis quasi sint sit alias id minus.</div>
+                <SectionCustom className={"fourth_stage"} isMobile={isMobile} opacity={1}>
+                    <Carousel/>
                 </SectionCustom>
             </Scroll>
             <group  ref={starsRef}>
@@ -336,7 +323,7 @@ export default function Model() {
                             floatingRange={[1, 1.005]}
                         >
                             <NeonText
-                                text="ABOUT ME"
+                                text="ABOUT_ME"
                                 neonColor={"#9f0057"}
                                 on={true}
                                 position={[9, 30, 4.5]}
@@ -399,6 +386,24 @@ export default function Model() {
                     <group
                         //@ts-ignore
                         ref={fourtStageRef} >
+                        <Float
+                            speed={1.15}
+                            rotationIntensity={1.05}
+                            floatIntensity={1}
+                            floatingRange={[1, 1.005]}
+                        >
+                      
+                            <NeonText
+                                text="SOME_PROJECTS"
+                                neonColor={"#9f0057"}
+                                on={true}
+                                //position={[positionx, positiony, positionz]}
+                                position={[9, 30, 4.5]}
+                                rotation={[Math.PI * 1.5, Math.PI * 2, Math.PI * 1]}
+                                scale={isMobile ? 2.1 : 2.6}
+                            />
+
+                        </Float>
 
                         <mesh scale={4} position={[0, 0, -10]} rotation={[0, 0.5, 0]}>
                             <sphereGeometry />
@@ -426,7 +431,7 @@ export default function Model() {
                         scale={ isMobile ? 3.2 : 1}
                     />
                     <NeonText
-                        text="CONTACT ME"
+                        text="KNOW_ME"
                         neonColor={"#9f0057"}
                         on={true}
                         position={[9, 30, 4.5]}

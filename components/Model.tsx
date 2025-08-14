@@ -41,7 +41,7 @@ export default function Model() {
     const [opacityThirdSection, setOpacityThirdSection] = useState(0);
     const [opacityLastSection, setOpacityLastSection] = useState(0);
 
-   const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0  })
+   //const { positionx, positiony, positionz } = useControls({ positionx:0 , positiony:0 ,positionz:0  })
 
     const ref = useRef();
     //@ts-ignore 
@@ -422,7 +422,7 @@ export default function Model() {
                     <ContactLayout
                         position={ isMobile ? [1,-5,-29] : [11, 64, 2.5]}
                         //-1.2, 0
-                        rotation={isMobile ? [( -Math.PI*3.23)/10,positiony,0] : [( -Math.PI*3.23)/10,( -Math.PI*0.13),0]}
+                        rotation={isMobile ? [( -Math.PI*3.23)/10,0,0] : [( -Math.PI*3.23)/10,( -Math.PI*0.13),0]}
                         scale={ isMobile ? 3.2 : 1}
                     />
                     <NeonText

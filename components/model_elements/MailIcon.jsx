@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 
 export function MailIcon(props) {
+
   const { nodes, materials } = useGLTF('/mail_icon.glb')
 
     const ref = useRef()
@@ -21,10 +22,21 @@ export function MailIcon(props) {
 
     });
 
-    const redirectTo = () => {
-        
-      window.open("mailto:romeran14@gmail.com", '_blank');
-    }
+  const  redirectTo = () =>{
+
+    const mailtoLink = `mailto:romeran14@gmail.com?subject=Hello!`;
+
+    // Abrir el enlace en una nueva ventana
+    const newWindow = window.open(mailtoLink, '_blank');
+
+    // Si la ventana no se abre, o se cierra inmediatamente (fallo),
+    // puedes mostrar un mensaje alternativo o copiar el correo.
+    setTimeout(() => {
+      if (!newWindow || newWindow.closed || typeof newWindow.closed === 'undefined') {
+        alert('Tu cliente de correo no se pudo abrir. Puedes copiar y pegar la dirección: romeran14@gmail.com');
+      }
+    }, 750); // 500 ms de espera
+}
   
   return (
     <group  {...props} dispose={null}>

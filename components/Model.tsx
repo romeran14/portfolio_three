@@ -42,7 +42,7 @@ export default function Model() {
     const [opacityThirdSection, setOpacityThirdSection] = useState(0);
     const [opacityLastSection, setOpacityLastSection] = useState(0);
    //[9, 30, 4.5]
-   const { positionx, positiony, positionz } = useControls({ positionx:9 , positiony:30 ,positionz:4.5  })
+   //const { positionx, positiony, positionz } = useControls({ positionx:9 , positiony:30 ,positionz:4.5  })
 
     const ref = useRef();
     //@ts-ignore 

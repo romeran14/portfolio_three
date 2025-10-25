@@ -219,7 +219,8 @@ main{
 
 .fourth_stage{
 	position: absolute;
-	top:260vh
+	top:260vh;
+	padding: 0 !important;
 }
 
 .last_stage{
@@ -241,7 +242,15 @@ main{
 		}
 }
 
+.content_third_section {
+    width: 100%;
+	overflow: visible;
+}
 
+.content_third_section .container {
+    width: 100%;
+    max-width: 100%;
+}
 
 .card{
 	height: 460px;
@@ -470,6 +479,10 @@ transform: translateZ(30px);
   width: 100%;
 }
 
+.swipper{
+	  overflow: unset  !important;
+}
+
 .swiper-slide {
   width: 100px;
   height: 100px; /* Hacemos los slides cuadrados */
@@ -478,6 +491,7 @@ transform: translateZ(30px);
   opacity: 0.7;
   transition: opacity 0.3s ease, transform 0.3s ease;
   transform-origin: center center;
+  overflow: unset  !important;
 }
 
 .swiper-slide-active {
@@ -493,6 +507,9 @@ transform: translateZ(30px);
     display: flex;
     align-items: center;
     justify-content: center;
+	
+    scale: 0.95;
+
 }
 
 .swiper-slide .slide-content {
@@ -500,24 +517,30 @@ transform: translateZ(30px);
   background-color: #101010; 
   border-radius: 5px;
   display: flex;
-  justify-content: space-evenly;
   padding:5%;
   align-items: start;
   flex-direction: column;
   font-size: 1rem;
-  aspect-ratio: 1;
+  height:100%;
   width: 100%;
   margin: auto;
   border-radius: 10px;
   /* border: 1px solid #dcc562; */
   transition: background-color .15s ease-in-out;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   /* &:hover{
     background-color: #aa7f2c;
   } */
 
 
+}
+
+.swiper-slide .number_card{
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-style: italic;
+  margin-bottom: 2.5%;
 }
 .swiper-slide-active .swan_card{
 transition: filter .15s ease-in-out;
@@ -525,7 +548,13 @@ transition: filter .15s ease-in-out;
 
 .swiper-slide-active p{
 transition: color .15s ease-in-out;
+text-align: left;
+}
 
+.swiper-slide .slide-image {
+    height: 54%;
+    object-fit: cover;
+    width: 100%;
 }
 
 .swiper-slide .slide-content:hover .swan_card{
@@ -536,8 +565,9 @@ transition: color .15s ease-in-out;
 }
 .slide-content {
   p{
-    font-size: 35px;
+    font-size: 1rem;
     font-weight: 500;
+	text-align: left;
   }
 }
 
@@ -553,8 +583,42 @@ transition: color .15s ease-in-out;
  color: #fff;
 }
 
+.swiper-slide h5{
+ font-size: 1.5rem;
+ margin: 0.5rem 0;
+}
+
+.swiper-slide a{
+   margin-top: auto;
+   margin-bottom: 0;
+}
+.swiper-slide .howwasmade{
+	line-height: 1.1rem;
+	font-size: 1rem;
+}
 
 .swiper-3d .swiper-slide-shadow-left,
 .swiper-3d .swiper-slide-shadow-right {
   background-image: none;
+}
+
+@media only screen and (min-width: 2250px) {
+	.swiper-slide h5{
+		font-size: 2.5rem;
+		margin: 0.5rem 0;
+	}
+
+	.swiper-slide .howwasmade{
+		font-size: 1.75rem;
+		line-height: 2.1rem;
+	}
+
+	.swiper-slide .number_card{
+		font-size: 1.55rem;
+		line-height: 1.85rem;
+	}
+
+	.swiper-slide a{
+font-size: 1.7rem;
+	}
 }

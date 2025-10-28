@@ -7,22 +7,12 @@ gsap.registerPlugin(ScrollTrigger);
 const Scene = dynamic(() => import("@/components/Scene"), { ssr: false })
 
 
-
-
-
-
-
-
-
 export default function Home() {
 
  
   return (
     <main  id="fuf" className="h-full">
-  
-  <Scene />
-     
-    
+      <Scene />
     </main>
   )
 }

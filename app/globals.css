@@ -25,10 +25,10 @@ body {
 main{
 	font-family: 'Reddit Mono', monospace;
 	color: #dddddd;
-	background-color: orange;
+	/* background-color: orange;
 	background: linear-gradient(200deg,#1c002d 0%,  #370058 45%,#831100 80%,#db6300 95%);
 	background-size: 180% 180%;
-	animation: gradient-animation 6.5s ease infinite;
+	animation: gradient-animation 6.5s ease infinite; */
 }
 
 @keyframes gradient-animation {
@@ -214,7 +214,8 @@ main{
 
 .third_stage{
 	position: absolute;
-	top:175vh
+	/* top:175vh; */
+	top:150vh;
 }
 
 .fourth_stage{
@@ -473,6 +474,7 @@ transform: translateZ(30px);
 }
 
 
+
 .swiper_container {
   /* height: 725px; */
   position: relative;
@@ -483,6 +485,15 @@ transform: translateZ(30px);
 	  overflow: unset  !important;
 }
 
+@media only screen and (max-width: 1024px) {
+	.swiper {
+		height: 65vh;
+	}
+	.content_third_section .container {
+    justify-content: flex-start;
+}
+
+}
 .swiper-slide {
   width: 100px;
   height: 100px; /* Hacemos los slides cuadrados */
@@ -621,4 +632,60 @@ text-align: left;
 	.swiper-slide a{
 font-size: 1.7rem;
 	}
+}
+
+.mobile-experience {
+    display: none;
+}
+
+@media (max-width:1024px) {
+    .desktop-experience {
+        display: none;
+    }
+    .mobile-experience {
+        display: block;
+    }
+
+	.swiper-slide a{
+		font-size: 1.4rem;
+	}
+	.swiper-slide h5{
+	font-size: 1.35rem;
+	margin: 0.5rem 0;
+	white-space: pre;
+	}
+
+	.swiper-slide .number_card{
+		font-size: 1rem;
+		line-height: 1.25rem;
+	}
+
+	.swiper-slide .howwasmade{
+		line-height: 1.4rem;
+		font-size: 1rem;
+	}
+}
+
+/* Estilos para el contenedor del loader */
+.loader-ui {
+  /* Apariencia inicial */
+  background-color: #111; /* Un fondo oscuro */
+  color: white;
+  font-size: 1.25rem;
+
+  /* Estado inicial para la transición */
+  opacity: 1;
+  
+  /* Definición de la transición */
+  transition: opacity 0.5s ease-out;
+}
+
+/* Clase que se añade para activar la animación de salida */
+.loader-ui.fade-out {
+  /* Estado final de la animación */
+  opacity: 0;
+}
+
+.loader-text {
+  margin: 0;
 }

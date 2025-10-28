@@ -2,6 +2,7 @@ import { memo } from "react"
 import { useIntersectionObserver } from "../hooks/useInterceptorObserver"
 import Image from "next/image"
 import { TabsControls } from "./TabsControls"
+import { MobileExperience } from "./MobileExperience"
 
 export const Experience = memo(function Experience() {
 
@@ -17,8 +18,7 @@ export const Experience = memo(function Experience() {
 			{
 				isIntersecting &&
 				<>
-
-				<div className="card">
+						<div className="card desktop-experience">
                     <TabsControls>
 
 					<div className="tabsBox">
@@ -144,7 +144,7 @@ export const Experience = memo(function Experience() {
 
 			    </div>
 
-				<div className="card">
+				<div className="card desktop-experience">
                     <TabsControls>
 
                         <div className="tabsBox">
@@ -244,7 +244,10 @@ export const Experience = memo(function Experience() {
                             </div>
                         </div>
                     </TabsControls>
-			</div>
+					</div>
+			
+
+				<MobileExperience />
 			</>
 
 			}

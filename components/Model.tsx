@@ -40,6 +40,7 @@ export default function Model() {
 
     const [opacitySecondSection, setOpacitySecondSection] = useState(0);
     const [opacityThirdSection, setOpacityThirdSection] = useState(0);
+    const [opacityFourthSection, setOpacityFourthSection] = useState(0);
     const [opacityLastSection, setOpacityLastSection] = useState(0);
    //[9, 30, 4.5]
    //const { positionx, positiony, positionz } = useControls({ positionx:9 , positiony:30 ,positionz:4.5  })
@@ -80,7 +81,7 @@ export default function Model() {
     }, []);
 
     const handleFirstCurve = () => {
-        const scrollStatus = scroll.curve(1 / 6, isMobile ? 0.4 : 1 / 3);
+        const scrollStatus = scroll.curve( isMobile ? 1/8 : 1 / 6, isMobile ? 0.2 : 1 / 3);
         if (scrollStatus > 0 && scrollStatus < 1) {
             setOpacitySecondSection(scrollStatus);
         } else {
@@ -98,10 +99,21 @@ export default function Model() {
     };
 
     const handleThirdCurve = () => {
-        const scrollStatus = scroll.curve(2 / 3, 1 / 3);
-        if (scrollStatus > 0 && scrollStatus > 1) { // Nota: scrollStatus > 1 aquí es raro, quizás debería ser < 1
-            setOpacityLastSection(scrollStatus);
+        const scrollStatus = scroll.curve(isMobile?0.35: 0.45, 1 / 5);
+        if (scrollStatus > 0 && scrollStatus < 1) { // Nota: scrollStatus > 1 aquí es raro, quizás debería ser < 1
+           setOpacityLastSection(scrollStatus);
         } else {
+            return;
+        }
+    };
+    const handleFourthCurve = () => {
+        const scrollStatus = scroll.curve(isMobile?0.65: 2 / 3, isMobile? 1/5 : 1 / 4);
+
+        if (scrollStatus > 0 && scrollStatus < 1) { // Nota: scrollStatus > 1 aquí es raro, quizás debería ser < 1
+            setOpacityFourthSection(scrollStatus);
+      
+        } else {
+
             return;
         }
     };
@@ -113,6 +125,7 @@ export default function Model() {
         handleFirstCurve();
         handleSecondCurve();
         handleThirdCurve();
+        handleFourthCurve();
 
         const scrollPercent = scroll.offset;
 
@@ -270,11 +283,11 @@ export default function Model() {
                     <DrawStackIcons isMobile={isMobile} />
                 </SectionCustom>
 
-                <SectionCustom className={"third_stage"} isMobile={isMobile} opacity={opacityThirdSection}>
+                <SectionCustom className={"third_stage"} isMobile={isMobile} opacity={opacityLastSection}>
                     <Experience />
                 </SectionCustom>
 
-                <SectionCustom className={"fourth_stage"} isMobile={isMobile} opacity={1}>
+                <SectionCustom className={"fourth_stage"} isMobile={isMobile} opacity={opacityFourthSection}>
                     <Carousel/>
                 </SectionCustom>
             </Scroll>

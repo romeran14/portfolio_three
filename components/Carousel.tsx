@@ -1,6 +1,7 @@
 
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectCoverflow } from 'swiper/modules';
 
@@ -28,7 +29,24 @@ const data = [
 ];
 
 export const Carousel = () => {
-  // Use a single ref for both the observer and GSAP
+  const [slidesPerView, setSlidesPerView] = useState(3.75);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setSlidesPerView(1.25);
+      } else {
+        setSlidesPerView(3.75);
+      }
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
 
 
@@ -44,7 +62,7 @@ export const Carousel = () => {
                         grabCursor={true}
                         centeredSlides={true}
                         loop={true}
-                        slidesPerView={3.75} // Mostramos 5 slides
+                        slidesPerView={slidesPerView}
                         spaceBetween={0} // Espacio entre slides (puede que no sea suficiente con coverflow)
                         className="swiper_container"
                     >

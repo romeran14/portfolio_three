@@ -3,6 +3,7 @@
 import { Canvas } from "@react-three/fiber"
 import { useState, useEffect, Suspense, memo } from "react"
 import { useProgress, Html, ScrollControls, OrbitControls } from "@react-three/drei"
+import Model from "./Model"
 
 
 
@@ -103,7 +104,7 @@ export default function Scene() {
                     pages={4}
                     maxSpeed={0.9}
                 >
-                    <Model />
+                  <Model/>
                 </ScrollControls>
 
                 {/* Si necesitas OrbitControls, descoméntalos aquí. Asegúrate de que no interfieran con ScrollControls */}

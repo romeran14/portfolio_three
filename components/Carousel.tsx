@@ -23,7 +23,7 @@ const data = [
   { id: 4,  title: 'CriptotApp',img:"/projects_images/cripto.jpg", text:"This app show you the price of cryptos in live-time, also make Graphs about the currency history", subtext:"This WebApp was done using React.js fetching data throught Redux-Query from a RapidApi.", url:"https://cripto-steel.vercel.app/#/" },
   { id: 5,  title: 'MDX Technical Test',img:"/projects_images/mdx.jpg",text:"Technical test to enter in MDX", subtext:"Immersive Page Exercise Using GSAP and Three.js", url:"https://mdx-prueba-tecnica.vercel.app/"},
   { id: 6,  title: 'Teslo Shop', img:"/projects_images/teslo_shop.png", text:"Online store with clothing for the whole family", subtext:"Application built in next.js using Mongo DB, Axios, Material UI, JWT, SWR, and integration with PayPal's payment platform.", url:"https://teslo-shop-roan.vercel.app/" },
-  { id: 7,  title: 'Exopalm',img:"/projects_images/exopalm.png", text:"At Exopalm, we take pride in delivering the best and providing eco-responsible, durable roofing products that exceed expectations. ", subtext:"Application in Next.js , gsap, animations, lottie, image-sequence",  url:"https://world-global-production.up.railway.app/" },
+  { id: 7,  title: 'Exopalm',img:"/projects_images/exopalm.png", text:"At Exopalm, we take pride in delivering the best and providing eco-responsible, durable roofing products that exceed expectations. ", subtext:"Application in Next.js , gsap, animations, lottie, image-sequence",  url:"https://www.exopalm.com/" },
   { id: 8,  title: 'Old Portfolio',img:"/projects_images/porfolio.png", text:"Previous portfolio created in 2022 showing some of my early projects", subtext:"", url: "https://portfolio-romeran-14.vercel.app/" },
 
 ];
